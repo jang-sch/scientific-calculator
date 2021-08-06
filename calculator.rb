@@ -130,17 +130,17 @@ while user_input == "y" || user_input == "Y"
         num = gets.chomp.to_f
         puts Math.sqrt(num)
     when '11'
-        if matrix_A.empty?
-            print"\nMatrix A is EMPTY! Please Load Matrix B\n"
-        else
-            inverse_A(matrix_A)
-        end
+        puts "\nEnter the number you wish to use to raise 2"
+        num = gets.chomp.to_f
+        puts "#{2**num}"
     when '12'
-        if matrix_B.empty?
-            print"\nMatrix B is EMPTY! Please Load Matrix B\n"
-        else
-            inverse_B(matrix_B)
-        end
+        puts "\nEnter the number you wish to find the cube root of"
+        num = gets.chomp.to_f
+        puts Math.cbrt(num)
+    when '13'
+        puts "\nEnter the number you wish to use to raise 3"
+        num = gets.chomp.to_f
+        puts "#{3**num}"
     else
         puts "NOT a valid choice, please try again."
     end
