@@ -28,7 +28,7 @@ def display_menu
     puts "5\tSine (degree mode)"
     puts "6\tCosine (degree mode)"
     puts "7\tTangent (degree mode)"
-    puts "\tDONT PICK ME OR HIGHER :)"
+    puts "8\tDONT PICK ME OR HIGHER :)"
 
 end
 
@@ -51,8 +51,8 @@ def check_continue
 end
 
 # #############################################################################
-# variables (may move this section)
-
+# global variables (may move this section)
+last_value = 0
 
 
 # #############################################################################
@@ -75,10 +75,13 @@ while user_input == "y" || user_input == "Y"
         sum_array.each {|num|
             sum += Float(num)
         }
+        # last_calculation = sum
         puts sum
-        
+
+        # tips: result of whatever op user chose, gets put into a glob var (like user_input), so when they do "sum + 2, 
+        # nums they want to subtract" it's like a running sc calc
     when '2'
-        # not complete, make function later
+        # not complete, make function later broken ignore
         puts "\nEnter numbers you wish to SUBTRACT, in order: "
         num_string = gets.chomp
         diff_array = num_string.split(' ')
@@ -114,6 +117,18 @@ while user_input == "y" || user_input == "Y"
         num = gets.chomp.to_f
         num = num * Math::PI / 180
         puts "#{Math::tan(num)}"
+    when '8'
+        puts "\nEnter the number you wish to be the exponent of e"
+        num = gets.chomp.to_f
+        puts "#{Math::exp(num)}"
+    when '9'
+        puts "\nEnter the number you wish to use ln on"
+        num = gets.chomp.to_f
+        puts "#{Math.log(num)}"
+    when '10'
+        puts "\nEnter the number you wish to find the square root of"
+        num = gets.chomp.to_f
+        puts Math.sqrt(num)
     when '11'
         if matrix_A.empty?
             print"\nMatrix A is EMPTY! Please Load Matrix B\n"
