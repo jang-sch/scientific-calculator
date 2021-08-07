@@ -28,7 +28,16 @@ def display_menu
     puts "5\tSine (degree mode)"
     puts "6\tCosine (degree mode)"
     puts "7\tTangent (degree mode)"
-    puts "8\tDONT PICK ME OR HIGHER :)"
+    puts "8\tExponential (exp) - e to power of a number"
+    puts "9\tNatural Logarithm (ln)"
+    puts "10\tSquare Root"
+    puts "11\tPower of 2 (2^x)"
+    puts "12\tCube Root"
+    puts "13\tPower of 3 (3^x)"
+    puts "14\tAdd Decimal point"
+    puts "15\tChange from positive to negative (+/-)"
+    puts "CANCEL\tCancels calculator option"
+    puts "CLEAR\tClears current input option (clear memory)"
 
 end
 
@@ -65,6 +74,7 @@ while user_input == "y" || user_input == "Y"
     puts  "\nMost recent value in memory is #{last_value}"
     print "Enter CHOICE number to perform (1-xx): "
     selection = gets.chomp
+    selection = selection.downcase
 
     case selection
     when '1'
@@ -89,15 +99,14 @@ while user_input == "y" || user_input == "Y"
         num_string = gets.chomp
         diff_array = num_string.split(' ')
         
-        #if last value == 0 subtract 1-x indeces from 0th index
-        # theres a bug with a cleared memory and input only one number*****
-        if last_value == 0
+        # if last_value == 0 and multiple numbers given
+        if last_value == 0 && diff_array.size() > 1
             diffs_sum = 0
             diff_array[1..-1].each {|num|
                 diffs_sum += Float(num)
             }
             last_value = Float(diff_array[0]) - diffs_sum
-        #else last value has numerical value, 
+        # otherwise if last_value not zero or only one number given
         else
             diff_array.each {|num|
                 last_value -= Float(num)
@@ -170,6 +179,19 @@ while user_input == "y" || user_input == "Y"
         puts "\nEnter the number you wish to use to raise 3"
         num = gets.chomp.to_f
         puts "#{3**num}"
+    when '14'
+    when '15'
+    when "cancel"
+        puts "No operation choice to cancel."
+        # dont break here because you want to keep using calc
+            # want to break AFTER an operation selection
+            # you will search for substring "CANCEL/cancle"
+            # after splits
+        # break
+    when "clear"
+        last_value = 0
+        puts "Memory has been cleared."
+        puts "Last value reset to #{last_value}"
     else
         puts "NOT a valid choice, please try again."
     end
