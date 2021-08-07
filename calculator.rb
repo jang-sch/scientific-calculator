@@ -69,10 +69,11 @@ while user_input == "y" || user_input == "Y"
     case selection
     when '1'
         #make function later
-        puts "\nEnter the numbers you wish to ADD: "
+        puts "\nEnter the numbers you wish to ADD:"
         sum = 0 # needs this
         num_string = gets.chomp
         sum_array = num_string.split(' ')
+        # after split, check if any of the entries say CANCEL/cancel
         sum_array.each {|num|
             sum += Float(num)
         }
@@ -89,12 +90,19 @@ while user_input == "y" || user_input == "Y"
         diff_array = num_string.split(' ')
         
         #if last value == 0 subtract 1-x indeces from 0th index
-        
+        # theres a bug with a cleared memory and input only one number*****
+        if last_value == 0
+            diffs_sum = 0
+            diff_array[1..-1].each {|num|
+                diffs_sum += Float(num)
+            }
+            last_value = Float(diff_array[0]) - diffs_sum
         #else last value has numerical value, 
-
-        diff_array.each {|num|
-            last_value -= Float(num)
-        }
+        else
+            diff_array.each {|num|
+                last_value -= Float(num)
+            }
+        end
         #last_value -= diff_array[0]
         puts "Most recent result is #{last_value}"
 
