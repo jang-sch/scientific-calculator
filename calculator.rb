@@ -62,7 +62,8 @@ user_input = "y"
 
 while user_input == "y" || user_input == "Y"
     display_menu
-    print "\nEnter choice selection number (1-xx): "
+    puts  "\nMost recent value in memory is #{last_value}"
+    print "Enter CHOICE number to perform (1-xx): "
     selection = gets.chomp
 
     case selection
@@ -75,25 +76,44 @@ while user_input == "y" || user_input == "Y"
         sum_array.each {|num|
             sum += Float(num)
         }
-        # last_calculation = sum
-        puts sum
+        last_value += sum
+        puts "Most recent result is #{last_value}"
 
         # tips: result of whatever op user chose, gets put into a glob var (like user_input), so when they do "sum + 2, 
         # nums they want to subtract" it's like a running sc calc
     when '2'
         # not complete, make function later broken ignore
+        puts  "\nMost recent value in memory is #{last_value}"
         puts "\nEnter numbers you wish to SUBTRACT, in order: "
         num_string = gets.chomp
         diff_array = num_string.split(' ')
-        # here convert numbers from strings
-        diff_array[1] = diff_array[1].to_f
-        diff_array[0] = diff_array[0].to_f
-        puts "#{diff_array[1] - diff_array[0]}"
-        #puts "#{temp1-temp2}"
-        puts diff_array[0]
+        
+        #if last value == 0 subtract 1-x indeces from 0th index
+        
+        #else last value has numerical value, 
+
+        diff_array.each {|num|
+            last_value -= Float(num)
+        }
+        #last_value -= diff_array[0]
+        puts "Most recent result is #{last_value}"
 
     when '3'
         puts "\nEnter the numbers you wish to MULTIPLY: "
+        mult_sum = 1 # needs this
+        num_string = gets.chomp
+        mult_array = num_string.split(' ')
+        mult_array.each {|num|
+            mult_sum *= Float(num)
+        }
+        # if nothing in memory, multiply all input numbers by each other
+        if last_value != 0
+            last_value *= mult_sum
+        # otherwise, multiply input numbers to the last result in memory
+        else
+            last_value = mult_sum
+        end
+        puts "Most recent result is #{last_value}"
     when '4'
         puts "\nEnter the numbers you wish to DIVIDE. Dividend, then divisor(s): "
 #      num1 = gets.chomp.to_f
@@ -108,6 +128,7 @@ while user_input == "y" || user_input == "Y"
         puts "#{Math::sin(num)}"
     when '6'
         puts "\nEnter the number you wish to use COS on (in degrees)"
+        puts "Press ENTER to use most recent result."
         num = gets.chomp.to_f
         num = num * Math::PI / 180
         puts "#{Math::cos(num)}"
