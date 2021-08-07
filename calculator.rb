@@ -42,6 +42,10 @@ def display_menu
 end
 
 # to check if user wants to continue using calculator
+###### might need to remove now that you have a "memory"/"last_value" :(
+    ### might just modify to go bacc to main menu automatically
+    ### instead of yes/no to continue, have continue == true, and 
+    ### have user enter "exit" to exit the program?
 def check_continue
     valid = false
     while !valid
@@ -58,6 +62,12 @@ def check_continue
     end
     return user_input
 end
+
+def check_cancel
+    # check if user wants to cancel selected operation and go back to main menu
+end
+
+
 
 # #############################################################################
 # global variables (may move this section)
@@ -133,11 +143,6 @@ while user_input == "y" || user_input == "Y"
         puts "Most recent result is #{last_value}"
     when '4'
         puts "\nEnter the numbers you wish to DIVIDE. Dividend, then divisor(s): "
-#      num1 = gets.chomp.to_f
-#      num2 = gets.chomp.to_f
-#      # maybe make function to chop off trailing zero for cleaner look?
-#      puts "#{num1 - num2}"
-    # below cases are harvest from matrix calculator
     when '5'
         puts "\nEnter the number you wish to use SIN on (in degrees)"
         num = gets.chomp.to_f
@@ -159,10 +164,25 @@ while user_input == "y" || user_input == "Y"
         puts "\nEnter the number you wish to be the exponent of e"
         num = gets.chomp.to_f
         puts "#{Math::exp(num)}"
+    # case 9 is only one that has memory and exception hand so far
     when '9'
         puts "\nEnter the number you wish to use ln on"
-        num = gets.chomp.to_f
-        puts "#{Math.log(num)}"
+        print "or enter word 'last' to find ln(#{last_value}): "
+        num = gets.chomp
+        num = num.downcase
+
+        if num == '0' || last_value <= 0
+            puts "\nINVALID INPUT, no natural log for non-positive numbers!"
+            puts "Last value remains UNCHANGED."
+            #break
+        elsif num == "last" && last_value >= 0
+            num = last_value
+            last_value = Math.log(num)
+        else
+            num = num.to_f
+            last_value = Math.log(num)
+        end
+        puts "Last value is #{last_value}"
     when '10'
         puts "\nEnter the number you wish to find the square root of"
         num = gets.chomp.to_f
