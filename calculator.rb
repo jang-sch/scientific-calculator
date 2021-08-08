@@ -103,6 +103,28 @@ def add_func
     end
 end
 
+def sub_func(memory)
+    puts  "\nMost recent value in memory is #{memory}"
+    puts "Enter numbers you wish to SUBTRACT, in order: "
+    num_string = gets.chomp
+    diff_array = num_string.split(' ')
+    
+    # if last_value == 0 and multiple numbers given
+    if memory == 0 && diff_array.size() > 1
+        diffs_sum = 0
+        diff_array[1..-1].each {|num|
+            diffs_sum += Float(num)
+        }
+        memory = Float(diff_array[0]) - diffs_sum
+    # otherwise if last_value not zero or only one number given
+    else
+        diff_array.each {|num|
+        memory -= Float(num)
+        }
+    end
+    return memory
+end
+
 # #############################################################################
 # global variables (may move this section)
 #last_value = 0
@@ -126,28 +148,8 @@ while true
         last_value += add_func
         puts "Sum is #{last_value}"
     when '2'
-        # not complete, make function later broken ignore
-        puts  "\nMost recent value in memory is #{last_value}"
-        puts "Enter numbers you wish to SUBTRACT, in order: "
-        num_string = gets.chomp
-        diff_array = num_string.split(' ')
-        
-        # if last_value == 0 and multiple numbers given
-        if last_value == 0 && diff_array.size() > 1
-            diffs_sum = 0
-            diff_array[1..-1].each {|num|
-                diffs_sum += Float(num)
-            }
-            last_value = Float(diff_array[0]) - diffs_sum
-        # otherwise if last_value not zero or only one number given
-        else
-            diff_array.each {|num|
-                last_value -= Float(num)
-            }
-        end
-        #last_value -= diff_array[0]
+        last_value = sub_func(last_value)
         puts "The difference is #{last_value}\n"
-
     when '3'
         puts "\nEnter the numbers you wish to MULTIPLY: "
         mult_sum = 1 # needs this
