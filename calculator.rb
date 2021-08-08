@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 # #############################################################################
-# course: cmps3500
-# CLASS Project
-# RUBY IMPLEMENTATION OF A CUSTOM SCIENTIFIC CALCULATION
-# date: 07/15/2021
+# Course: cmps3500
+# Class Project
+# Ruby Implementatin of a Scientific Calculator
+# Date: 07/15/2021
 # Student 1: Janneth Guarcas Garcia
 # Student 2: n/a
-# description: Implementation of a scientific calculator in Ruby
+# Description: Implementation of a scientific calculator in Ruby
 # #############################################################################
 
 # #############################################################################
@@ -19,7 +19,6 @@ def display_menu
         "Menu: Choose Which Operation to Perform" + 
         "\n----------------------------------------------------------------"
     puts "Choice\tDescription\n"
-    # puts puts puts puts vs puts + + + + 
 
     puts "1\tAddition"
     puts "2\tSubtraction"
@@ -63,8 +62,14 @@ def check_continue
     return user_input
 end
 
-def check_cancel
+def check_cancel(user_string)
+    is_cancel = false
+    if user_string.downcase.include?("cancel")
+        puts "Operation cancelled, returning to Operations Menu"
+        is_cancel = true
+    end
     # check if user wants to cancel selected operation and go back to main menu
+    return is_cancel
 end
 
 
@@ -81,25 +86,28 @@ user_input = "y"
 
 while user_input == "y" || user_input == "Y"
     display_menu
-    puts  "\nMost recent value in memory is #{last_value}"
+    puts  "\nMost recent result in memory is #{last_value}"
     print "Enter CHOICE number to perform (1-xx): "
     selection = gets.chomp
     selection = selection.downcase
 
     case selection
     when '1'
-        #make function later
-        puts "\nEnter the numbers you wish to ADD:"
+        puts "\nYou selected to ADDITION"
+        puts "Enter the numbers you wish to ADD:"
         sum = 0 # needs this
         num_string = gets.chomp
-        sum_array = num_string.split(' ')
-        # after split, check if any of the entries say CANCEL/cancel
-        sum_array.each {|num|
-            sum += Float(num)
-        }
-        last_value += sum
-        puts "Most recent result is #{last_value}"
-
+        if check_cancel(num_string)
+            #puts "Operation cancelled, returning to Operations Menu"
+        else
+            sum_array = num_string.split(' ')
+            # after split, check if any of the entries say CANCEL/cancel
+            sum_array.each {|num|
+                sum += Float(num)
+            }
+            last_value += sum
+            puts "The answer is #{last_value}"
+        end
         # tips: result of whatever op user chose, gets put into a glob var (like user_input), so when they do "sum + 2, 
         # nums they want to subtract" it's like a running sc calc
     when '2'
@@ -212,6 +220,7 @@ while user_input == "y" || user_input == "Y"
         last_value = 0
         puts "Memory has been cleared."
         puts "Last value reset to #{last_value}"
+    when "exit"
     else
         puts "NOT a valid choice, please try again."
     end
