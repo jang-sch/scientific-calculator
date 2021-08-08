@@ -125,6 +125,56 @@ def sub_func(memory)
     return memory
 end
 
+def mult_func(memory)
+    puts "\nEnter the numbers you wish to MULTIPLY: "
+    mult_sum = 1 # needs this
+    num_string = gets.chomp
+    mult_array = num_string.split(' ')
+    mult_array.each {|num|
+        mult_sum *= Float(num)
+    }
+
+    # if non-zero memory, multiply input by memory 
+    # if (memory != 0 && mult_array.size() > 1) <-- BUGGY LINE
+    if memory != 0
+        memory *= mult_sum
+    # if zero memory and multiple inputs, overwrite mem w/ new computation
+    elsif (memory == 0 && mult_array.size() > 1)
+        memory = mult_sum
+    # 0 if only one input give and memory is zero b/c zero * any number = 0
+    else
+        memory = 0
+    end
+
+    return memory
+end
+
+def div_func(memory)
+    puts "\nEnter the numbers you wish to DIVIDE: "
+    div_sum = 1 # needs this
+    num_string = gets.chomp
+    div_array = num_string.split(' ')
+
+    # if non-zero memory, divide all input numbers into memory
+    if memory != 0
+        div_array.each {|num|
+        div_sum *= Float(num)
+    }
+        memory /= div_sum
+    # otherwise, starting fresh and overwriting old memory with new ops
+    elsif memory == 0 && div_array.size() > 1
+        div_array[1..-1].each {|num|
+            div_sum *= Float(num)
+        }
+        memory = Float(div_array[0]) / div_sum
+        #memory = div_sum
+    # give back zero if only one num given and memory is zero 
+    else
+        memory /= Float(div_array[0])
+    end
+    return memory
+end
+
 # #############################################################################
 # global variables (may move this section)
 #last_value = 0
@@ -151,23 +201,11 @@ while true
         last_value = sub_func(last_value)
         puts "The difference is #{last_value}\n"
     when '3'
-        puts "\nEnter the numbers you wish to MULTIPLY: "
-        mult_sum = 1 # needs this
-        num_string = gets.chomp
-        mult_array = num_string.split(' ')
-        mult_array.each {|num|
-            mult_sum *= Float(num)
-        }
-        # if nothing in memory, multiply all input numbers by each other
-        if last_value != 0
-            last_value *= mult_sum
-        # otherwise, multiply input numbers to the last result in memory
-        else
-            last_value = mult_sum
-        end
-        puts "Most recent result is #{last_value}"
+        last_value = mult_func(last_value)
+        puts "Most answer is #{last_value}"
     when '4'
-        puts "\nEnter the numbers you wish to DIVIDE. Dividend, then divisor(s): "
+        last_value = div_func(last_value)
+        puts "The answer is #{last_value}"
     when '5'
         puts "\nEnter the number you wish to use SIN on (in degrees)"
         num = gets.chomp.to_f
