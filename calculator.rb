@@ -12,22 +12,22 @@
 # #############################################################################
 # function definitions
 
-def addition
-    puts "Enter the numbers you wish to ADD:"
-    sum = 0 # needs this
-    num_string = gets.chomp
-    if check_cancel(num_string)
-        puts "Addition cancelled, returning to Operations Menu"
-    else
-        sum_array = num_string.split(' ')
-        sum_array.each {|num|
-            sum += Float(num)
-        }
-        last_value += sum
-        puts "The sum is #{last_value}\n\n"
-    end
-end
-
+# def addition
+#     puts "Enter the numbers you wish to ADD:"
+#     sum = 0 # needs this
+#     num_string = gets.chomp
+#     if check_cancel(num_string)
+#         puts "Addition cancelled, returning to Operations Menu"
+#     else
+#         sum_array = num_string.split(' ')
+#         sum_array.each {|num|
+#             sum += Float(num)
+#         }
+#         last_value += sum
+#         puts "The sum is #{last_value}\n\n"
+#     end
+# end
+last_value = 0.0
 # display menu
 def display_menu
 
@@ -88,11 +88,24 @@ def check_cancel(user_string)
     return is_cancel
 end
 
-
+def add_func
+    puts "Enter the numbers you wish to ADD:"
+    sum = 0 # needs this
+    num_string = gets.chomp
+    if check_cancel(num_string) == true
+        puts "Addition cancelled, returning to Operations Menu"
+    else
+        sum_array = num_string.split(' ')
+        sum_array.each {|num|
+            sum += Float(num)
+        }
+        return sum
+    end
+end
 
 # #############################################################################
 # global variables (may move this section)
-last_value = 0
+#last_value = 0
 
 
 # #############################################################################
@@ -110,19 +123,8 @@ while true
 
     case selection
     when '1'
-        puts "Enter the numbers you wish to ADD:"
-        sum = 0 # needs this
-        num_string = gets.chomp
-        if check_cancel(num_string)
-            puts "Addition cancelled, returning to Operations Menu"
-        else
-            sum_array = num_string.split(' ')
-            sum_array.each {|num|
-                sum += Float(num)
-            }
-            last_value += sum
-            puts "The sum is #{last_value}\n\n"
-        end
+        last_value += add_func
+        puts "Sum is #{last_value}"
     when '2'
         # not complete, make function later broken ignore
         puts  "\nMost recent value in memory is #{last_value}"
