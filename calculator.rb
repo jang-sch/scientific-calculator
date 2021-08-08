@@ -12,31 +12,49 @@
 # #############################################################################
 # function definitions
 
+def addition
+    puts "Enter the numbers you wish to ADD:"
+    sum = 0 # needs this
+    num_string = gets.chomp
+    if check_cancel(num_string)
+        puts "Addition cancelled, returning to Operations Menu"
+    else
+        sum_array = num_string.split(' ')
+        sum_array.each {|num|
+            sum += Float(num)
+        }
+        last_value += sum
+        puts "The sum is #{last_value}\n\n"
+    end
+end
+
 # display menu
 def display_menu
 
-    puts "----------------------------------------------------------------\n" + 
-        "Menu: Choose Which Operation to Perform" + 
-        "\n----------------------------------------------------------------"
-    puts "Choice\tDescription\n"
+    puts "\n----------------------------------------------------------------\n"
+    puts "            Menu: Choose Which Operation to Perform             " 
+    puts "----------------------------------------------------------------"
+    puts " Choice\tDescription\n"
+    puts " ------\t-----------"
 
-    puts "1\tAddition"
-    puts "2\tSubtraction"
-    puts "3\tMultiplication"
-    puts "4\tDivision"
-    puts "5\tSine (degree mode)"
-    puts "6\tCosine (degree mode)"
-    puts "7\tTangent (degree mode)"
-    puts "8\tExponential (exp) - e to power of a number"
-    puts "9\tNatural Logarithm (ln)"
-    puts "10\tSquare Root"
-    puts "11\tPower of 2 (2^x)"
-    puts "12\tCube Root"
-    puts "13\tPower of 3 (3^x)"
-    puts "14\tAdd Decimal point"
-    puts "15\tChange from positive to negative (+/-)"
-    puts "CANCEL\tCancels calculator option"
-    puts "CLEAR\tClears current input option (clear memory)"
+    puts " 1\tAddition"
+    puts " 2\tSubtraction"
+    puts " 3\tMultiplication"
+    puts " 4\tDivision"
+    puts " 5\tSine (degree mode)"
+    puts " 6\tCosine (degree mode)"
+    puts " 7\tTangent (degree mode)"
+    puts " 8\tExponential (exp) - e to power of a number"
+    puts " 9\tNatural Logarithm (ln)"
+    puts " 10\tSquare Root"
+    puts " 11\tPower of 2 (2^x)"
+    puts " 12\tCube Root"
+    puts " 13\tPower of 3 (3^x)"
+    puts " 14\tAdd Decimal point"
+    puts " 15\tChange from positive to negative (+/-)"
+    puts " CANCEL\tCancels calculator option"
+    puts " CLEAR\tClears current input option (clear memory)"
+    puts " EXIT\tTo exit the calculator"
 
 end
 
@@ -65,10 +83,8 @@ end
 def check_cancel(user_string)
     is_cancel = false
     if user_string.downcase.include?("cancel")
-        puts "Operation cancelled, returning to Operations Menu"
         is_cancel = true
     end
-    # check if user wants to cancel selected operation and go back to main menu
     return is_cancel
 end
 
@@ -84,36 +100,33 @@ last_value = 0
 
 user_input = "y"
 
-while user_input == "y" || user_input == "Y"
+while true
     display_menu
     puts  "\nMost recent result in memory is #{last_value}"
-    print "Enter CHOICE number to perform (1-xx): "
-    selection = gets.chomp
+    print "Enter choice from menu: "
+    selection = gets.chomp    
+    puts  ""
     selection = selection.downcase
 
     case selection
     when '1'
-        puts "\nYou selected to ADDITION"
         puts "Enter the numbers you wish to ADD:"
         sum = 0 # needs this
         num_string = gets.chomp
         if check_cancel(num_string)
-            #puts "Operation cancelled, returning to Operations Menu"
+            puts "Addition cancelled, returning to Operations Menu"
         else
             sum_array = num_string.split(' ')
-            # after split, check if any of the entries say CANCEL/cancel
             sum_array.each {|num|
                 sum += Float(num)
             }
             last_value += sum
-            puts "The answer is #{last_value}"
+            puts "The sum is #{last_value}\n\n"
         end
-        # tips: result of whatever op user chose, gets put into a glob var (like user_input), so when they do "sum + 2, 
-        # nums they want to subtract" it's like a running sc calc
     when '2'
         # not complete, make function later broken ignore
         puts  "\nMost recent value in memory is #{last_value}"
-        puts "\nEnter numbers you wish to SUBTRACT, in order: "
+        puts "Enter numbers you wish to SUBTRACT, in order: "
         num_string = gets.chomp
         diff_array = num_string.split(' ')
         
@@ -131,7 +144,7 @@ while user_input == "y" || user_input == "Y"
             }
         end
         #last_value -= diff_array[0]
-        puts "Most recent result is #{last_value}"
+        puts "The difference is #{last_value}\n"
 
     when '3'
         puts "\nEnter the numbers you wish to MULTIPLY: "
@@ -218,12 +231,13 @@ while user_input == "y" || user_input == "Y"
         # break
     when "clear"
         last_value = 0
-        puts "Memory has been cleared."
+        puts "\nMemory has been cleared."
         puts "Last value reset to #{last_value}"
     when "exit"
+        break
     else
         puts "NOT a valid choice, please try again."
     end
-    user_input = check_continue
+    #user_input = check_continue
 end
 puts "Goodbye"
