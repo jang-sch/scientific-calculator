@@ -12,22 +12,6 @@
 # #############################################################################
 # function definitions
 
-# def addition
-#     puts "Enter the numbers you wish to ADD:"
-#     sum = 0 # needs this
-#     num_string = gets.chomp
-#     if check_cancel(num_string)
-#         puts "Addition cancelled, returning to Operations Menu"
-#     else
-#         sum_array = num_string.split(' ')
-#         sum_array.each {|num|
-#             sum += Float(num)
-#         }
-#         last_value += sum
-#         puts "The sum is #{last_value}\n\n"
-#     end
-# end
-last_value = 0.0
 # display menu
 def display_menu
 
@@ -52,7 +36,7 @@ def display_menu
     puts " 13\tPower of 3 (3^x)"
     puts " 14\tAdd Decimal point"
     puts " 15\tChange from positive to negative (+/-)"
-    puts " CANCEL\tCancels calculator option"
+    puts " ***CANCEL***\tCancels calculator option"
     puts " CLEAR\tClears current input option (clear memory)"
     puts " EXIT\tTo exit the calculator"
 
@@ -104,8 +88,7 @@ def add_func
 end
 
 def sub_func(memory)
-    puts  "\nMost recent value in memory is #{memory}"
-    puts "Enter numbers you wish to SUBTRACT, in order: "
+    puts "Enter numbers you wish to SUBTRACT: "
     num_string = gets.chomp
     diff_array = num_string.split(' ')
     
@@ -135,7 +118,6 @@ def mult_func(memory)
     }
 
     # if non-zero memory, multiply input by memory 
-    # if (memory != 0 && mult_array.size() > 1) <-- BUGGY LINE
     if memory != 0
         memory *= mult_sum
     # if zero memory and multiple inputs, overwrite mem w/ new computation
@@ -150,7 +132,7 @@ def mult_func(memory)
 end
 
 def div_func(memory)
-    puts "\nEnter the numbers you wish to DIVIDE: "
+    puts "Enter the numbers you wish to DIVIDE: "
     div_sum = 1 # needs this
     num_string = gets.chomp
     div_array = num_string.split(' ')
@@ -167,17 +149,17 @@ def div_func(memory)
             div_sum *= Float(num)
         }
         memory = Float(div_array[0]) / div_sum
-        #memory = div_sum
     # give back zero if only one num given and memory is zero 
     else
         memory /= Float(div_array[0])
     end
+
     return memory
 end
 
 # #############################################################################
 # global variables (may move this section)
-#last_value = 0
+last_value = 0.0
 
 
 # #############################################################################
@@ -202,7 +184,7 @@ while true
         puts "The difference is #{last_value}\n"
     when '3'
         last_value = mult_func(last_value)
-        puts "Most answer is #{last_value}"
+        puts "The answer is #{last_value}"
     when '4'
         last_value = div_func(last_value)
         puts "The answer is #{last_value}"
@@ -234,18 +216,19 @@ while true
         num = gets.chomp
         num = num.downcase
 
-        if num == '0' || last_value <= 0
+        if num == '0' || (num == "last" && last_value == 0)
             puts "\nINVALID INPUT, no natural log for non-positive numbers!"
             puts "Last value remains UNCHANGED."
-            #break
-        elsif num == "last" && last_value >= 0
+
+        elsif num == "last" && last_value > 0
             num = last_value
             last_value = Math.log(num)
+            puts "The Natural Log is #{last_value}"
         else
             num = num.to_f
             last_value = Math.log(num)
+            puts "The Natural Log is #{last_value}"
         end
-        puts "Last value is #{last_value}"
     when '10'
         puts "\nEnter the number you wish to find the square root of"
         num = gets.chomp.to_f
@@ -263,6 +246,11 @@ while true
         num = gets.chomp.to_f
         puts "#{3**num}"
     when '14'
+        # if already decimal, say "already a decimal"
+        # if a whole number (with no decimal fraction), just function as add
+
+        # determine if has decimal fractional value using 
+            # is_fraction = (x - floor(x) == 0)? false : true
     when '15'
     when "cancel"
         puts "No operation choice to cancel."
