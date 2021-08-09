@@ -72,7 +72,8 @@ def check_cancel(user_string)
     return is_cancel
 end
 
-def add_func(memory)
+#there is a bug in ADD method, wont add to last memory? fixed?
+def add_func(memory) 
     puts "Enter the numbers you wish to ADD:"
     sum = 0 # needs this
     num_string = gets.chomp
@@ -84,15 +85,22 @@ def add_func(memory)
         sum_array.each {|num|
             sum += Float(num)
         }
-        return sum
+        memory += sum
+        return memory
     end
 end
 
 def sub_func(memory)
     puts "Enter numbers you wish to SUBTRACT: "
     num_string = gets.chomp
+
+    if check_cancel(num_string) == true
+        puts "\nSubtraction cancelled, returning to Operations Menu"
+        return memory
+    end
+
     diff_array = num_string.split(' ')
-    
+
     # if last_value == 0 and multiple numbers given
     if memory == 0 && diff_array.size() > 1
         diffs_sum = 0
@@ -113,6 +121,12 @@ def mult_func(memory)
     puts "\nEnter the numbers you wish to MULTIPLY: "
     mult_sum = 1 # needs this
     num_string = gets.chomp
+
+    if check_cancel(num_string) == true
+        puts "\nMultiplication cancelled, returning to Operations Menu"
+        return memory
+    end
+
     mult_array = num_string.split(' ')
     mult_array.each {|num|
         mult_sum *= Float(num)
@@ -136,6 +150,12 @@ def div_func(memory)
     puts "Enter the numbers you wish to DIVIDE: "
     div_sum = 1 # needs this
     num_string = gets.chomp
+
+    if check_cancel(num_string) == true
+        puts "\nDivision cancelled, returning to Operations Menu"
+        return memory
+    end
+
     div_array = num_string.split(' ')
 
     # if non-zero memory, divide all input numbers into memory
@@ -158,10 +178,67 @@ def div_func(memory)
     return memory
 end
 
+def sin_func(memory)
+    puts "\nEnter the number you wish to use SIN on (in degrees)"
+    print "or enter word 'last' to find sine(#{memory}): "
+    num = gets.chomp
+    num = num.downcase
 
+    if check_cancel(num) == true
+        puts "\nSine cancelled, returning to Operations Menu"
+        return memory
+    end
 
+    if num == "last"
+        memory = Math::sin(memory* Math::PI / 180)
+    else
+        num = num.to_f
+        memory = Math::sin(num * Math::PI / 180)
+    end
+    return memory
+end
 
+def cos_func(memory)
+    puts "\nEnter the number you wish to use COS on (in degrees)"
+    print "or enter word 'last' to find cos(#{memory}): "
+    num = gets.chomp
+    num = num.downcase
 
+    if check_cancel(num) == true
+        puts "\nCosine cancelled, returning to Operations Menu"
+        return memory
+    end
+
+    if num == "last"
+        memory = Math::cos(memory * Math::PI / 180)
+    else
+        num = num.to_f
+        memory = Math::cos(num * Math::PI / 180)
+    end
+    return memory
+end
+
+def tan_func(memory)
+    puts "\nEnter the number you wish to use TAN on (in degrees)"
+    print "or enter word 'last' to find tan(#{memory}): "
+    num = gets.chomp
+    num = num.downcase
+
+    if check_cancel(num) == true
+        puts "\nTangent cancelled, returning to Operations Menu"
+        return memory
+    end
+
+    if num == "last"
+        # check if memory is 90 + 180x
+        memory = Math::tan(memory * Math::PI / 180)
+    else
+        num = num.to_f
+        # check if memory is 90 + 180x
+        memory = Math::tan(num * Math::PI / 180)
+    end
+    return memory
+end
 
 
 
@@ -177,25 +254,31 @@ def exp_func(memory)
     num = gets.chomp
     num = num.downcase
 
-    # CHECK FOR CANCEL here?
+    if check_cancel(num) == true
+        puts "\nExponentiation cancelled, returning to Operations Menu"
+        return memory
+    end
 
     if num == "last"
-
+        memory = Math::exp(memory)
     else
         num = num.to_f
-        memory
-        puts " Answer is #{Math::exp(num)}"
+        memory = Math::exp(num)
     end
+    return memory
 end
-
-
-
 
 def log_func(memory)
     puts "\nEnter the number you wish to use ln on"
     print "or enter word 'last' to find ln(#{memory}): "
     num = gets.chomp
+    puts num
     num = num.downcase
+
+    if check_cancel(num) == true
+        puts "\nNatural Log cancelled, returning to Operations Menu"
+        return memory
+    end
 
     if num == '0' || (num == "last" && memory == 0)
         puts "\nINVALID INPUT, no natural log for non-positive numbers!"
@@ -203,11 +286,12 @@ def log_func(memory)
     elsif num == "last" && memory > 0
         num = memory
         memory = Math.log(num)
-        puts "The Natural Log is #{memory}"
+        #puts "The Natural Log is #{memory}"
     else
+        #elsif num != '0'
         num = num.to_f
         memory = Math.log(num)
-        puts "The Natural Log is #{memory}"
+        #puts "The Natural Log is #{memory}"
     end
     return memory
 end
@@ -244,33 +328,20 @@ while true
         last_value = div_func(last_value)
         puts "The answer is #{last_value}"
     when '5'
-        puts "\nEnter the number you wish to use SIN on (in degrees)"
-        num = gets.chomp.to_f
-        num = num * Math::PI / 180
-        puts "#{Math::sin(num)}"
+        last_value = sin_func(last_value)
+        puts "The sine is #{last_value}"
     when '6'
-        puts "\nEnter the number you wish to use COS on (in degrees)"
-        puts "Press ENTER to use most recent result."
-        num = gets.chomp.to_f
-        num = num * Math::PI / 180
-        puts "#{Math::cos(num)}"
+        last_value = cos_func(last_value)
+        puts "The cosine is #{last_value}"
     when '7'
-        #verify valid input for 90 for example
-        puts "\nEnter the number you wish to use TAN on (in degrees)"
-        num = gets.chomp.to_f
-        num = num * Math::PI / 180
-        puts num
-        # conversion causes tiny discrepancy in calculation
-        # call sine and cosine if cosine == 0 say invalid
-        # OR check if input was any value fitting 90 + 180x, where x is any int
-        puts "#{Math::tan(num)}"
+        last_value = tan_func(last_value)
+        puts "The tangent is #{last_value}"
     when '8'
-        exp_func(last_value)
-        # num = gets.chomp.to_f
-        # puts "#{Math::exp(num)}"
-    # case 9 is only one that has memory and exception hand so far
+        last_value = exp_func(last_value)
+        puts "The answer is #{last_value}"
     when '9'
         last_value = log_func(last_value)
+        puts "The Natural Log is #{last_value}"
     when '10'
         puts "\nEnter the number you wish to find the square root of"
         num = gets.chomp.to_f
