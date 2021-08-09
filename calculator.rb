@@ -72,12 +72,13 @@ def check_cancel(user_string)
     return is_cancel
 end
 
-def add_func
+def add_func(memory)
     puts "Enter the numbers you wish to ADD:"
     sum = 0 # needs this
     num_string = gets.chomp
     if check_cancel(num_string) == true
-        puts "Addition cancelled, returning to Operations Menu"
+        puts "\nAddition cancelled, returning to Operations Menu"
+        return memory
     else
         sum_array = num_string.split(' ')
         sum_array.each {|num|
@@ -157,6 +158,60 @@ def div_func(memory)
     return memory
 end
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+def exp_func(memory)
+    puts "\nEnter the number you wish to be the exponent of e"
+    print "or enter word 'last' to find e^(#{memory}): "
+    num = gets.chomp
+    num = num.downcase
+
+    # CHECK FOR CANCEL here?
+
+    if num == "last"
+
+    else
+        num = num.to_f
+        memory
+        puts " Answer is #{Math::exp(num)}"
+    end
+end
+
+
+
+
+def log_func(memory)
+    puts "\nEnter the number you wish to use ln on"
+    print "or enter word 'last' to find ln(#{memory}): "
+    num = gets.chomp
+    num = num.downcase
+
+    if num == '0' || (num == "last" && memory == 0)
+        puts "\nINVALID INPUT, no natural log for non-positive numbers!"
+        puts "Last value remains UNCHANGED."
+    elsif num == "last" && memory > 0
+        num = memory
+        memory = Math.log(num)
+        puts "The Natural Log is #{memory}"
+    else
+        num = num.to_f
+        memory = Math.log(num)
+        puts "The Natural Log is #{memory}"
+    end
+    return memory
+end
+
 # #############################################################################
 # global variables (may move this section)
 last_value = 0.0
@@ -177,7 +232,7 @@ while true
 
     case selection
     when '1'
-        last_value += add_func
+        last_value = add_func(last_value)
         puts "Sum is #{last_value}"
     when '2'
         last_value = sub_func(last_value)
@@ -204,31 +259,18 @@ while true
         puts "\nEnter the number you wish to use TAN on (in degrees)"
         num = gets.chomp.to_f
         num = num * Math::PI / 180
+        puts num
+        # conversion causes tiny discrepancy in calculation
+        # call sine and cosine if cosine == 0 say invalid
+        # OR check if input was any value fitting 90 + 180x, where x is any int
         puts "#{Math::tan(num)}"
     when '8'
-        puts "\nEnter the number you wish to be the exponent of e"
-        num = gets.chomp.to_f
-        puts "#{Math::exp(num)}"
+        exp_func(last_value)
+        # num = gets.chomp.to_f
+        # puts "#{Math::exp(num)}"
     # case 9 is only one that has memory and exception hand so far
     when '9'
-        puts "\nEnter the number you wish to use ln on"
-        print "or enter word 'last' to find ln(#{last_value}): "
-        num = gets.chomp
-        num = num.downcase
-
-        if num == '0' || (num == "last" && last_value == 0)
-            puts "\nINVALID INPUT, no natural log for non-positive numbers!"
-            puts "Last value remains UNCHANGED."
-
-        elsif num == "last" && last_value > 0
-            num = last_value
-            last_value = Math.log(num)
-            puts "The Natural Log is #{last_value}"
-        else
-            num = num.to_f
-            last_value = Math.log(num)
-            puts "The Natural Log is #{last_value}"
-        end
+        last_value = log_func(last_value)
     when '10'
         puts "\nEnter the number you wish to find the square root of"
         num = gets.chomp.to_f
@@ -256,7 +298,7 @@ while true
         puts "No operation choice to cancel."
         # dont break here because you want to keep using calc
             # want to break AFTER an operation selection
-            # you will search for substring "CANCEL/cancle"
+            # you will search for substring "CANCEL/cancel"
             # after splits
         # break
     when "clear"
