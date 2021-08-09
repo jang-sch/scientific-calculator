@@ -64,6 +64,7 @@ def check_continue
     return user_input
 end
 
+
 def check_cancel(user_string)
     is_cancel = false
     if user_string.downcase.include?("cancel")
@@ -89,6 +90,7 @@ def add_func(memory)
         return memory
     end
 end
+
 
 def sub_func(memory)
     puts "Enter numbers you wish to SUBTRACT: "
@@ -116,6 +118,7 @@ def sub_func(memory)
     end
     return memory
 end
+
 
 def mult_func(memory)
     puts "\nEnter the numbers you wish to MULTIPLY: "
@@ -145,6 +148,7 @@ def mult_func(memory)
 
     return memory
 end
+
 
 def div_func(memory)
     puts "Enter the numbers you wish to DIVIDE: "
@@ -178,6 +182,7 @@ def div_func(memory)
     return memory
 end
 
+
 def sin_func(memory)
     puts "\nEnter the number you wish to use SIN on (in degrees)"
     print "or enter word 'last' to find sine(#{memory}): "
@@ -195,8 +200,9 @@ def sin_func(memory)
         num = num.to_f
         memory = Math::sin(num * Math::PI / 180)
     end
-    return memory
+    return memory.round(10)
 end
+
 
 def cos_func(memory)
     puts "\nEnter the number you wish to use COS on (in degrees)"
@@ -215,8 +221,17 @@ def cos_func(memory)
         num = num.to_f
         memory = Math::cos(num * Math::PI / 180)
     end
-    return memory
+    return memory.round(10)
 end
+
+# may be removed later
+def tan_invalid(sample)
+    base = sample%180
+    if sample == 90
+        return true
+    end
+end
+
 
 def tan_func(memory)
     puts "\nEnter the number you wish to use TAN on (in degrees)"
@@ -230,22 +245,27 @@ def tan_func(memory)
     end
 
     if num == "last"
-        # check if memory is 90 + 180x
-        memory = Math::tan(memory * Math::PI / 180)
+        # check if memory is 90 + 180x # if num % 180 == 90
+        temp = Math::cos(memory * Math::PI / 180)
+        if temp == 0
+            puts "INVALID INPUT\nReturning to Operations Menu."
+        else
+            memory = Math::tan(memory * Math::PI / 180)
+            puts "The tangent is #{memory}"
+        end
     else
         num = num.to_f
-        # check if memory is 90 + 180x
-        memory = Math::tan(num * Math::PI / 180)
+        # check if num is 90 + 180x
+        temp = Math::cos(num * Math::PI / 180)
+        if temp == 0
+            puts "INVALID INPUT\nReturning to Operations Menu."
+        else
+            memory = Math::tan(num * Math::PI / 180)
+            puts "The tangent is #{memory}"
+        end
     end
-    return memory
+    return memory.round(10)
 end
-
-
-
-
-
-
-
 
 
 def exp_func(memory)
@@ -265,8 +285,9 @@ def exp_func(memory)
         num = num.to_f
         memory = Math::exp(num)
     end
-    return memory
+    return memory.round(10)
 end
+
 
 def log_func(memory)
     puts "\nEnter the number you wish to use ln on"
@@ -280,31 +301,29 @@ def log_func(memory)
         return memory
     end
 
-    if num == '0' || (num == "last" && memory == 0)
+    if num <= '0' || (num == "last" && memory <= 0)
         puts "\nINVALID INPUT, no natural log for non-positive numbers!"
         puts "Last value remains UNCHANGED."
     elsif num == "last" && memory > 0
         num = memory
         memory = Math.log(num)
-        #puts "The Natural Log is #{memory}"
+        puts "The Natural Log is #{memory}"
     else
-        #elsif num != '0'
         num = num.to_f
         memory = Math.log(num)
-        #puts "The Natural Log is #{memory}"
+        puts "The Natural Log is #{memory}"
     end
     return memory
 end
 
+
 # #############################################################################
 # global variables (may move this section)
 last_value = 0.0
-
+user_input = "y"
 
 # #############################################################################
 # main script
-
-user_input = "y"
 
 while true
     display_menu
@@ -320,7 +339,7 @@ while true
         puts "Sum is #{last_value}"
     when '2'
         last_value = sub_func(last_value)
-        puts "The difference is #{last_value}\n"
+        puts "The difference is #{last_value}"
     when '3'
         last_value = mult_func(last_value)
         puts "The answer is #{last_value}"
@@ -335,13 +354,11 @@ while true
         puts "The cosine is #{last_value}"
     when '7'
         last_value = tan_func(last_value)
-        puts "The tangent is #{last_value}"
     when '8'
         last_value = exp_func(last_value)
         puts "The answer is #{last_value}"
     when '9'
         last_value = log_func(last_value)
-        puts "The Natural Log is #{last_value}"
     when '10'
         puts "\nEnter the number you wish to find the square root of"
         num = gets.chomp.to_f
@@ -359,12 +376,14 @@ while true
         num = gets.chomp.to_f
         puts "#{3**num}"
     when '14'
+        puts "Decimal selected"
         # if already decimal, say "already a decimal"
         # if a whole number (with no decimal fraction), just function as add
 
         # determine if has decimal fractional value using 
             # is_fraction = (x - floor(x) == 0)? false : true
     when '15'
+        puts "Change from positive to negative selected"
     when "cancel"
         puts "No operation choice to cancel."
         # dont break here because you want to keep using calc
