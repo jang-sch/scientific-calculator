@@ -89,7 +89,7 @@ def add_func(memory)
         puts "\nAddition cancelled, returning to Operations Menu"
         return memory
     else
-        sum_array = num_string.split(' ')
+        sum_array = num_string.split()
         sum_array.each {|num|
             sum += Float(num)
         }
@@ -108,7 +108,7 @@ def sub_func(memory)
         return memory
     end
 
-    diff_array = num_string.split(' ')
+    diff_array = num_string.split()
 
     # if last_value == 0 and multiple numbers given
     if memory == 0 && diff_array.size() > 1
@@ -137,7 +137,7 @@ def mult_func(memory)
         return memory
     end
 
-    mult_array = num_string.split(' ')
+    mult_array = num_string.split()
     mult_array.each {|num|
         mult_sum *= Float(num)
     }
@@ -331,7 +331,7 @@ def log_func(memory)
     end
 
     if num <= '0' || (num == "last" && memory <= 0)
-        puts "\nINVALID INPUT, no natural log for non-positive numbers!"
+        puts "\nERROR: INVALID INPUT\nno natural log for non-positive numbers!"
         puts "Last value remains UNCHANGED."
     elsif num == "last" && memory > 0
         num = memory
@@ -438,8 +438,10 @@ while true
     rescue ZeroDivisionError
         puts "DIVIDE BY ZERO ERROR.\nMemory UNCHANGED."
         puts "Returning to Menu."
-    rescue
-        puts "\nAn ERROR has occured."
+    # switch on and off for debugging
+    rescue => err_mssg
+        puts "\nAn ERROR has occured:"
+        puts "\'#{err_mssg} \'"
         puts "Returning to Menu."
     end
 end
