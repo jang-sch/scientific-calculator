@@ -36,32 +36,10 @@ def display_menu
     puts " 13\tPower of 3 (3^x)"
     puts " 14\tAdd Decimal point"
     puts " 15\tChange from positive to negative (+/-)"
-    puts " ***CANCEL***\tCancels calculator option"
-    puts " CLEAR\tClears current input option (clear memory)"
+    puts " CANCEL\tCancels calculator option"
+    puts " CLEAR\tClears memory (input option)"
     puts " EXIT\tTo exit the calculator"
 
-end
-
-# to check if user wants to continue using calculator
-###### might need to remove now that you have a "memory"/"last_value" :(
-    ### might just modify to go bacc to main menu automatically
-    ### instead of yes/no to continue, have continue == true, and 
-    ### have user enter "exit" to exit the program?
-def check_continue
-    valid = false
-    while !valid
-        # is this user friendly? lol
-        print "\nDo you have more operations to perform? [Y]es or [N]o: "
-        cont = gets.chomp
-        cont = cont.downcase
-        if cont == "y" || cont == "n"
-            user_input = cont
-            valid = true
-        else
-            puts "Invalid choice. Try again"
-        end
-    end
-    return user_input
 end
 
 
@@ -73,13 +51,6 @@ def check_cancel(user_string)
     return is_cancel
 end
 
-#def div_helper(user_string)
-#    has_zero = false
-#    if user_string.to_i.include?(0)
-#        has_zero = true
-#    end
-#    return has_zero
-#end
 
 def add_func(memory) 
     puts "Enter the numbers you wish to ADD:"
@@ -253,14 +224,6 @@ def cos_func(memory)
     return memory.round(10)
 end
 
-# may be removed later
-def tan_invalid(sample)
-    base = sample%180
-    if sample == 90
-        return true
-    end
-end
-
 
 def tan_func(memory)
     puts "\nEnter the number you wish to use TAN on (in degrees)"
@@ -274,10 +237,12 @@ def tan_func(memory)
     end
 
     if num == "last"
-        # check if memory is 90 + 180x # if num % 180 == 90
-        temp = Math::cos(memory * Math::PI / 180)
-        if temp == 0
-            puts "INVALID INPUT\nReturning to Operations Menu."
+        # check if num is 90 + 180x
+        temp = memory%180
+        puts temp
+        if temp == 90
+            puts "\nINVALID INPUT\nMemory UNCHANGED"
+            puts "Returning to Operations Menu."
         else
             memory = Math::tan(memory * Math::PI / 180)
             puts "The tangent is #{memory}"
@@ -285,9 +250,10 @@ def tan_func(memory)
     else
         num = num.to_f
         # check if num is 90 + 180x
-        temp = Math::cos(num * Math::PI / 180)
-        if temp == 0
-            puts "INVALID INPUT\nReturning to Operations Menu."
+        temp = num%180
+        if temp == 90
+            puts "\nINVALID INPUT\nMemory UNCHANGED"
+            puts "Returning to Operations Menu."
         else
             memory = Math::tan(num * Math::PI / 180)
             puts "The tangent is #{memory}"
@@ -322,7 +288,6 @@ def log_func(memory)
     puts "\nEnter the number you wish to use ln on"
     print "or enter word 'last' to find ln(#{memory}): "
     num = gets.chomp
-    puts num
     num = num.downcase
 
     if check_cancel(num) == true
@@ -347,9 +312,9 @@ end
 
 
 # #############################################################################
-# global variables (may move this section)
+# global variables
+
 last_value = 0.0
-user_input = "y"
 
 # #############################################################################
 # main script
@@ -375,7 +340,6 @@ while true
             puts "The answer is #{last_value}"
         when '4'
             last_value = div_func(last_value)
-            #puts "The answer is #{last_value}"
         when '5'
             last_value = sin_func(last_value)
             puts "The sine is #{last_value}"
@@ -415,14 +379,9 @@ while true
         when '15'
             puts "Change from positive to negative selected"
         when "cancel"
-            puts "No operation choice to cancel."
-            # dont break here because you want to keep using calc
-                # want to break AFTER an operation selection
-                # you will search for substring "CANCEL/cancel"
-                # after splits
-            # break
+            puts "No operation choice to cancel.\nReturning to Menu."
         when "clear"
-            last_value = 0
+            last_value = 0.0
             puts "\nMemory has been cleared."
             puts "Last value reset to #{last_value}"
         when "exit"
@@ -430,7 +389,6 @@ while true
         else
             puts "NOT a valid choice, please try again."
         end
-        #user_input = check_continue
     rescue ArgumentError
         puts "\nERROR!"
         puts "You must enter a number.\nMemory UNCHANGED"
@@ -438,10 +396,12 @@ while true
     rescue ZeroDivisionError
         puts "DIVIDE BY ZERO ERROR.\nMemory UNCHANGED."
         puts "Returning to Menu."
-    # switch on and off for debugging
+    rescue Math::DomainError
+        puts "DOMAIN ERROR!\nMemory UNCHANGED"
+        puts "Returning to Menu."
     rescue => err_mssg
         puts "\nAn ERROR has occured:"
-        puts "\'#{err_mssg} \'"
+        puts "\'#{err_mssg}\'"
         puts "Returning to Menu."
     end
 end
