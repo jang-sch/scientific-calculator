@@ -35,7 +35,7 @@ def display_menu
     puts " 12\tCube Root"
     puts " 13\tPower of 3 (3^x)"
     puts " 14\tAdd Decimal point"
-    puts " 15\tChange from positive to negative (+/-)"
+    puts " 15\tChange Sign (+/-) or (-/+)"
     puts " CANCEL\tCancels calculator option"
     puts " CLEAR\tClears memory (input option)"
     puts " EXIT\tTo exit the calculator"
@@ -323,48 +323,111 @@ end
 def square_root(memory)
     puts "\nEnter the number you wish to find the square root of,"
     print "or enter word 'last' to find sqrt(#{memory}): "
+    
     num = gets.chomp
     num = num.downcase
 
     if num == "cancel"
-        puts "Square Root cancel. Returning to Operations Menu"
+        puts "Square Root cancelled. Returning to Operations Menu"
+        return memory
     elsif num == "last"
-        memory = Math.sqrt(memory)
+        memory = Math.sqrt(memory).round(10)
     else
-        memory = Math.sqrt(Float(num))
+        memory = Math.sqrt(Float(num)).round(10)
     end
+    puts "The square root is #{memory}"
     return memory
 end
 
 
 def power2(memory)
     #
+    puts "\nEnter the number you wish to use to raise 2,"
+    puts "or enter word 'last' to find 2^(#{memory}): "
+    print "2^"
+    num = gets.chomp
+    num = num.downcase
+
+    if num == "cancel"
+        puts "Power of 2 cancelled. Returning to Operations Menu."
+        return memory
+    elsif num == "last"
+        memory = 2**memory
+    else
+        memory = 2**Float(num)
+    end
+    puts "The answer is #{memory}"
+    return memory
 end
 
 
 def cube_root(memory)
     puts "\nEnter the number you wish to find the cube root of,"
-    print "or enter word 'last' to find cbrt(#{memory}): "
+    puts "or enter word 'last' to find cbrt(#{memory}): "
+
     num = gets.chomp
     num = num.downcase
 
     if num == "cancel"
-        puts "Cube Root cancel. Returning to Operations Menu"
+        puts "Cube Root cancelled. Returning to Operations Menu"
+        return memory
     elsif num == "last"
-        memory = Math.cbrt(memory)
+        memory = Math.cbrt(memory).round(10)
     else
-        memory = Math.cbrt(Float(num))
+        memory = Math.cbrt(Float(num)).round(10)
     end
+    puts "The cube root is #{memory}"
     return memory
 end
 
 
 def power3(memory)
     #
+    puts "\nEnter the number you wish to use to raise 3,"
+    puts "or enter word 'last' to find 3^(#{memory}): "
+    print "3^"
+    num = gets.chomp
+    num = num.downcase
+
+    if num == "cancel"
+        puts "Power of 3 cancelled. Returning to Operations Menu."
+        return memory
+    elsif num == "last"
+        memory = 3**memory
+    else
+        memory = 3**Float(num)
+    end
+    puts "The answer is #{memory}"
+    return memory
 end
 
 
+def make_decimal(memory)
+    # see commment in switch statment case 14
+end
 
+
+def change_sign(memory)
+    puts "Enter  a new number to change the sign of "
+    print "OR enter word 'last' to change #{memory}: "
+    
+    num = gets.chomp
+    num = num.downcase
+
+    if num == "cancel"
+        puts "Negation cancelled. Returning to Operations Menu"
+        return memory
+    elsif num == "last"
+        # memory = memory.abs() * -1
+        memory *= -1
+    else
+        # memory = Float(num).abs() * -1
+        memory = Float(num) * -1
+    end
+    puts "Negated number is #{memory}"
+    return memory
+
+end
 
 # #############################################################################
 # global variables
@@ -405,15 +468,11 @@ while true
         when '10'
             last_value = square_root(last_value)
         when '11'
-            puts "\nEnter the number you wish to use to raise 2,"
-            num = gets.chomp.to_f
-            puts "#{2**num}"
+            last_value = power2(last_value)
         when '12'
             last_value = cube_root(last_value)
         when '13'
-            puts "\nEnter the number you wish to use to raise 3,"
-            num = gets.chomp.to_f
-            puts "#{3**num}"
+            last_value = power3(last_value)
         when '14'
             puts "Decimal selected"
             # if already decimal, say "already a decimal"
@@ -422,7 +481,8 @@ while true
             # determine if has decimal fractional value using 
                 # is_fraction = (x - floor(x) == 0)? false : true
         when '15'
-            puts "Change from positive to negative selected"
+            #puts "Change from positive to negative selected"
+            last_value = change_sign(last_value)
         when "cancel"
             puts "No operation choice to cancel.\nReturning to Menu."
         when "clear"
@@ -434,9 +494,10 @@ while true
         else
             puts "NOT a valid choice, please try again."
         end
+
     rescue ArgumentError
         puts "\nERROR!"
-        puts "You must enter a number.\nMemory UNCHANGED"
+        puts "Must evaluate a number.\nMemory UNCHANGED"
         puts "Returning to Menu."
     rescue ZeroDivisionError
         puts "\nDIVIDE BY ZERO ERROR.\nMemory UNCHANGED."
