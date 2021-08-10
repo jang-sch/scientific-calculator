@@ -73,7 +73,7 @@ def check_cancel(user_string)
     return is_cancel
 end
 
-#there is a bug in ADD method, wont add to last memory? fixed?
+
 def add_func(memory) 
     puts "Enter the numbers you wish to ADD:"
     sum = 0 # needs this
@@ -332,74 +332,83 @@ while true
     selection = gets.chomp    
     puts  ""
     selection = selection.downcase
+    
+    begin
+        case selection
+        when '1'
+            last_value = add_func(last_value)
+            puts "Sum is #{last_value}"
+        when '2'
+            last_value = sub_func(last_value)
+            puts "The difference is #{last_value}"
+        when '3'
+            last_value = mult_func(last_value)
+            puts "The answer is #{last_value}"
+        when '4'
+            last_value = div_func(last_value)
+            puts "The answer is #{last_value}"
+        when '5'
+            last_value = sin_func(last_value)
+            puts "The sine is #{last_value}"
+        when '6'
+            last_value = cos_func(last_value)
+            puts "The cosine is #{last_value}"
+        when '7'
+            last_value = tan_func(last_value)
+        when '8'
+            last_value = exp_func(last_value)
+            puts "The answer is #{last_value}"
+        when '9'
+            last_value = log_func(last_value)
+        when '10'
+            puts "\nEnter the number you wish to find the square root of"
+            num = gets.chomp.to_f
+            puts Math.sqrt(num)
+        when '11'
+            puts "\nEnter the number you wish to use to raise 2"
+            num = gets.chomp.to_f
+            puts "#{2**num}"
+        when '12'
+            puts "\nEnter the number you wish to find the cube root of"
+            num = gets.chomp.to_f
+            puts Math.cbrt(num)
+        when '13'
+            puts "\nEnter the number you wish to use to raise 3"
+            num = gets.chomp.to_f
+            puts "#{3**num}"
+        when '14'
+            puts "Decimal selected"
+            # if already decimal, say "already a decimal"
+            # if a whole number (with no decimal fraction), just function as add
 
-    case selection
-    when '1'
-        last_value = add_func(last_value)
-        puts "Sum is #{last_value}"
-    when '2'
-        last_value = sub_func(last_value)
-        puts "The difference is #{last_value}"
-    when '3'
-        last_value = mult_func(last_value)
-        puts "The answer is #{last_value}"
-    when '4'
-        last_value = div_func(last_value)
-        puts "The answer is #{last_value}"
-    when '5'
-        last_value = sin_func(last_value)
-        puts "The sine is #{last_value}"
-    when '6'
-        last_value = cos_func(last_value)
-        puts "The cosine is #{last_value}"
-    when '7'
-        last_value = tan_func(last_value)
-    when '8'
-        last_value = exp_func(last_value)
-        puts "The answer is #{last_value}"
-    when '9'
-        last_value = log_func(last_value)
-    when '10'
-        puts "\nEnter the number you wish to find the square root of"
-        num = gets.chomp.to_f
-        puts Math.sqrt(num)
-    when '11'
-        puts "\nEnter the number you wish to use to raise 2"
-        num = gets.chomp.to_f
-        puts "#{2**num}"
-    when '12'
-        puts "\nEnter the number you wish to find the cube root of"
-        num = gets.chomp.to_f
-        puts Math.cbrt(num)
-    when '13'
-        puts "\nEnter the number you wish to use to raise 3"
-        num = gets.chomp.to_f
-        puts "#{3**num}"
-    when '14'
-        puts "Decimal selected"
-        # if already decimal, say "already a decimal"
-        # if a whole number (with no decimal fraction), just function as add
-
-        # determine if has decimal fractional value using 
-            # is_fraction = (x - floor(x) == 0)? false : true
-    when '15'
-        puts "Change from positive to negative selected"
-    when "cancel"
-        puts "No operation choice to cancel."
-        # dont break here because you want to keep using calc
-            # want to break AFTER an operation selection
-            # you will search for substring "CANCEL/cancel"
-            # after splits
-        # break
-    when "clear"
-        last_value = 0
-        puts "\nMemory has been cleared."
-        puts "Last value reset to #{last_value}"
-    when "exit"
-        break
-    else
-        puts "NOT a valid choice, please try again."
+            # determine if has decimal fractional value using 
+                # is_fraction = (x - floor(x) == 0)? false : true
+        when '15'
+            puts "Change from positive to negative selected"
+        when "cancel"
+            puts "No operation choice to cancel."
+            # dont break here because you want to keep using calc
+                # want to break AFTER an operation selection
+                # you will search for substring "CANCEL/cancel"
+                # after splits
+            # break
+        when "clear"
+            last_value = 0
+            puts "\nMemory has been cleared."
+            puts "Last value reset to #{last_value}"
+        when "exit"
+            break
+        else
+            puts "NOT a valid choice, please try again."
+        end
+        #user_input = check_continue
+    rescue ArgumentError
+        puts "\nAn error has occured."
+        puts "You must enter a number."
+        puts "Returning to Menu."
+    rescue
+        puts "\nAn error has occured."
+        puts "Returning to Menu."
     end
-    #user_input = check_continue
 end
 puts "Goodbye"
