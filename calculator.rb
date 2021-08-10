@@ -73,6 +73,13 @@ def check_cancel(user_string)
     return is_cancel
 end
 
+#def div_helper(user_string)
+#    has_zero = false
+#    if user_string.to_i.include?(0)
+#        has_zero = true
+#    end
+#    return has_zero
+#end
 
 def add_func(memory) 
     puts "Enter the numbers you wish to ADD:"
@@ -160,26 +167,48 @@ def div_func(memory)
         return memory
     end
 
-    div_array = num_string.split(' ')
+    div_array = num_string.split()
 
     # if non-zero memory, divide all input numbers into memory
     if memory != 0
         div_array.each {|num|
-        div_sum *= Float(num)
-    }
+            if is_zero(num)
+                return memory
+            end
+            div_sum *= Float(num)
+        }
         memory /= div_sum
     # otherwise, starting fresh and overwriting old memory with new ops
     elsif memory == 0 && div_array.size() > 1
         div_array[1..-1].each {|num|
-            div_sum *= Float(num)
+            if is_zero(num)
+                return memory
+            end
+            div_sum *= Integer(num)
         }
         memory = Float(div_array[0]) / div_sum
+        puts "The answer is #{memory}. Memory changed."
     # give back zero if only one num given and memory is zero 
     else
+        if is_zero(div_array[0])
+            return memory
+        end
         memory /= Float(div_array[0])
+        puts "The answer is #{memory}"
     end
-
     return memory
+end
+
+# to handle divide-by-zero errors when working with floats becuase Ruby
+# does not raise divide-by-zero errors when working with floats
+def is_zero(sample_number)
+    is_zero = false
+    if Float(sample_number) == 0.0
+        is_zero = true
+        puts "DIVIDE BY ZERO ERROR.\nMemory UNCHANGED."
+        puts "Returning to Menu."
+    end
+    return is_zero
 end
 
 
@@ -346,7 +375,7 @@ while true
             puts "The answer is #{last_value}"
         when '4'
             last_value = div_func(last_value)
-            puts "The answer is #{last_value}"
+            #puts "The answer is #{last_value}"
         when '5'
             last_value = sin_func(last_value)
             puts "The sine is #{last_value}"
@@ -403,11 +432,14 @@ while true
         end
         #user_input = check_continue
     rescue ArgumentError
-        puts "\nAn error has occured."
-        puts "You must enter a number."
+        puts "\nERROR!"
+        puts "You must enter a number.\nMemory UNCHANGED"
+        puts "Returning to Menu."
+    rescue ZeroDivisionError
+        puts "DIVIDE BY ZERO ERROR.\nMemory UNCHANGED."
         puts "Returning to Menu."
     rescue
-        puts "\nAn error has occured."
+        puts "\nAn ERROR has occured."
         puts "Returning to Menu."
     end
 end
