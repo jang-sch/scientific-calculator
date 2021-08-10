@@ -65,6 +65,7 @@ def add_func(memory)
             sum += Float(num)
         }
         memory += sum
+        puts "Sum is #{memory}"
         return memory
     end
 end
@@ -94,6 +95,7 @@ def sub_func(memory)
         memory -= Float(num)
         }
     end
+    puts "The difference is #{memory}"
     return memory
 end
 
@@ -123,7 +125,7 @@ def mult_func(memory)
     else
         memory = 0
     end
-
+    puts "The answer is #{memory}"
     return memory
 end
 
@@ -200,6 +202,7 @@ def sin_func(memory)
         num = num.to_f
         memory = Math::sin(num * Math::PI / 180)
     end
+    puts "The sine is #{memory}"
     return memory.round(10)
 end
 
@@ -221,7 +224,9 @@ def cos_func(memory)
         num = num.to_f
         memory = Math::cos(num * Math::PI / 180)
     end
-    return memory.round(10)
+    memory = memory.round(10)
+    puts "The cosine is #{memory}"
+    return memory
 end
 
 
@@ -269,7 +274,7 @@ def exp_func(memory)
     num = gets.chomp
     num = num.downcase
 
-    if check_cancel(num) == true
+    if num == "cancel"
         puts "\nExponentiation cancelled, returning to Operations Menu"
         return memory
     end
@@ -277,38 +282,88 @@ def exp_func(memory)
     if num == "last"
         memory = Math::exp(memory)
     else
+        num = num + 0
         num = num.to_f
         memory = Math::exp(num)
     end
-    return memory.round(10)
+    memory = memory.round(10)
+    puts "The answer is #{memory}"
+    return memory
 end
 
 
-def log_func(memory)
+def nlog_func(memory)
     puts "\nEnter the number you wish to use ln on"
     print "or enter word 'last' to find ln(#{memory}): "
     num = gets.chomp
     num = num.downcase
 
-    if check_cancel(num) == true
+    if num == "cancel"
         puts "\nNatural Log cancelled, returning to Operations Menu"
         return memory
     end
 
     if num <= '0' || (num == "last" && memory <= 0)
-        puts "\nERROR: INVALID INPUT\nno natural log for non-positive numbers!"
+        puts "\nERROR: INVALID INPUT\nNo natural log for non-positive numbers!"
         puts "Last value remains UNCHANGED."
     elsif num == "last" && memory > 0
         num = memory
         memory = Math.log(num)
         puts "The Natural Log is #{memory}"
     else
+        num = num + 0
         num = num.to_f
         memory = Math.log(num)
         puts "The Natural Log is #{memory}"
     end
     return memory
 end
+
+
+def square_root(memory)
+    puts "\nEnter the number you wish to find the square root of,"
+    print "or enter word 'last' to find sqrt(#{memory}): "
+    num = gets.chomp
+    num = num.downcase
+
+    if num == "cancel"
+        puts "Square Root cancel. Returning to Operations Menu"
+    elsif num == "last"
+        memory = Math.sqrt(memory)
+    else
+        memory = Math.sqrt(Float(num))
+    end
+    return memory
+end
+
+
+def power2(memory)
+    #
+end
+
+
+def cube_root(memory)
+    puts "\nEnter the number you wish to find the cube root of,"
+    print "or enter word 'last' to find cbrt(#{memory}): "
+    num = gets.chomp
+    num = num.downcase
+
+    if num == "cancel"
+        puts "Cube Root cancel. Returning to Operations Menu"
+    elsif num == "last"
+        memory = Math.cbrt(memory)
+    else
+        memory = Math.cbrt(Float(num))
+    end
+    return memory
+end
+
+
+def power3(memory)
+    #
+end
+
+
 
 
 # #############################################################################
@@ -331,42 +386,32 @@ while true
         case selection
         when '1'
             last_value = add_func(last_value)
-            puts "Sum is #{last_value}"
         when '2'
             last_value = sub_func(last_value)
-            puts "The difference is #{last_value}"
         when '3'
             last_value = mult_func(last_value)
-            puts "The answer is #{last_value}"
         when '4'
             last_value = div_func(last_value)
         when '5'
             last_value = sin_func(last_value)
-            puts "The sine is #{last_value}"
         when '6'
             last_value = cos_func(last_value)
-            puts "The cosine is #{last_value}"
         when '7'
             last_value = tan_func(last_value)
         when '8'
             last_value = exp_func(last_value)
-            puts "The answer is #{last_value}"
         when '9'
-            last_value = log_func(last_value)
+            last_value = nlog_func(last_value)
         when '10'
-            puts "\nEnter the number you wish to find the square root of"
-            num = gets.chomp.to_f
-            puts Math.sqrt(num)
+            last_value = square_root(last_value)
         when '11'
-            puts "\nEnter the number you wish to use to raise 2"
+            puts "\nEnter the number you wish to use to raise 2,"
             num = gets.chomp.to_f
             puts "#{2**num}"
         when '12'
-            puts "\nEnter the number you wish to find the cube root of"
-            num = gets.chomp.to_f
-            puts Math.cbrt(num)
+            last_value = cube_root(last_value)
         when '13'
-            puts "\nEnter the number you wish to use to raise 3"
+            puts "\nEnter the number you wish to use to raise 3,"
             num = gets.chomp.to_f
             puts "#{3**num}"
         when '14'
@@ -394,11 +439,14 @@ while true
         puts "You must enter a number.\nMemory UNCHANGED"
         puts "Returning to Menu."
     rescue ZeroDivisionError
-        puts "DIVIDE BY ZERO ERROR.\nMemory UNCHANGED."
+        puts "\nDIVIDE BY ZERO ERROR.\nMemory UNCHANGED."
         puts "Returning to Menu."
     rescue Math::DomainError
-        puts "DOMAIN ERROR!\nMemory UNCHANGED"
+        puts "\nDOMAIN ERROR!\nMemory UNCHANGED"
         puts "Returning to Menu."
+    rescue TypeError
+        puts "\nTYPE ERROR! Make sure you entered a number!"
+        puts "Memory UNCHANGED.\nReturning to Menu."
     rescue => err_mssg
         puts "\nAn ERROR has occured:"
         puts "\'#{err_mssg}\'"
