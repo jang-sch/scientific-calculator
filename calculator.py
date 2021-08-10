@@ -8,7 +8,7 @@
 # Description: Implementation of a scientific calculator in Python
 # #############################################################################
 
-print("hello world!")
+import math
 
 def display_menu():
     print("\n----------------------------------------------------------------")
@@ -37,12 +37,93 @@ def display_menu():
     return
 
 def add_func():
-    print("Enter the numbers you wish to add")
-    inp1 = int(input("\nNum 1: "))
-    inp2 = int(input("\nNum 2: "))
-    sum = inp1 + inp2
-    print(sum)
-    return sum
+    val = 0
+    inp = list(map(float, input("Enter the numbers you wish to ADD: ").split()))
+    #might have to make this += 
+    val = sum(inp)
+    print(val)
+    return val   
+
+def sub_func():
+    inp = list(map(float, input("Enter the numbers you wish to SUBTRACT: ").split()))
+    val = 0
+    val = inp[0] - (sum(inp) - inp[0])
+    print(val)
+    return val
+
+def mult_func():
+    inp = list(map(float, input("Enter the numbers you wish to MULTIPLY: ").split()))
+    val = 1
+    for i in inp:
+        val = val * i
+    print(val)
+    return val
+
+def div_func():
+    inp = list(map(float, input("Enter the numbers you wish to DIVIDE: ").split()))
+    val = 1
+    
+    print(val)
+    return val
+
+def sine():
+    inp = float(input("Enter the number you wish to use SIN on (in degrees): "))
+    val = round(math.sin(math.radians(inp)), 10)
+    print(val)
+    return val
+
+def cosine():
+    inp = float(input("Enter the number you wish to use COS on (in degrees): "))
+    val = round(math.cos(math.radians(inp)), 10)
+    print(val)
+    return val
+
+def tangent():
+    inp = float(input("Enter the number you wish to use TAN on (in degrees): "))
+    val = round(math.cos(math.radians(inp)), 10)
+    if(val == 0):
+        print("Domain ERROR! Returning to operations menu")
+    else:
+        val = round(math.tan(math.radians(inp)), 10)
+        print(val)
+    return val
+
+def exponential():
+    inp = float(input("Enter the number you wish to be the exponent of e: "))
+    # ^modify prompt for mem
+    val = math.exp(inp)
+    print(val)
+    return val
+
+def natLog():
+    inp = float(input("Enter the number you wish to find Natural Log of: "))
+    val = math.log(inp)
+    print(val)
+    return val
+
+def squareRoot():
+    inp = float(input("Enter the number you wish to find the square root of: "))
+    val = math.sqrt(inp)
+    print(val)
+    return val
+
+def power2():
+    inp = float(input("Enter the number you wish to use to raise 2: "))
+    val = 2**inp
+    print(val)
+    return val
+
+def cubeRoot():
+    inp = float(input("Enter the number you wish to find the cube root of: "))
+    val = inp**(1/3)
+    print(val)
+    return val
+
+def power3():
+    inp = float(input("Enter the number you wish to use to raise 3: "))
+    val = 3**inp
+    print(val)
+    return val
 
 user_input = " "
 last_value = 0
@@ -55,29 +136,29 @@ while user_input != "exit":
     if(user_input == "1"):
         last_value = add_func()
     elif(user_input == "2"):
-        print("SUBTRACTION GOES HERE")
+        last_value = sub_func()
     elif(user_input == "3"):
-        print("MULTIPLICATION GOES HERE")
+        last_value = mult_func()
     elif(user_input == "4"):
-        print("DIVISION GOES HERE")
+        last_value = div_func()
     elif(user_input == "5"):
-        print("SINE GOES HERE")
+        last_value = sine()
     elif(user_input == "6"):
-        print("COSINE")
+        last_value = cosine()
     elif(user_input == "7"):
-        print("TANGENT")
+        last_value = tangent()
     elif(user_input == "8"):
-        print("EXPONENTIAL")
+        last_value = exponential()
     elif(user_input == "9"):
-        print("NATURAL LOG")
+        last_value = natLog()
     elif(user_input == "10"):
-        print("SQUARE ROOT")
+        last_value = squareRoot()
     elif(user_input == "11"):
-        print("POWER OF 2")
+        last_value = power2()
     elif(user_input == "12"):
-        print("CUBE ROOT")
+        last_value = cubeRoot()
     elif(user_input == "13"):
-        print("POWER OF 3")
+        last_value = power3()
     elif(user_input == "14"):
         print("ADD DECIMAL")
     elif(user_input == "15"):
