@@ -187,7 +187,7 @@ end
 
 def sin_func(memory)
     puts "\nEnter the number you wish to use SIN on (in degrees)"
-    print "or enter word 'last' to find sine(#{memory}): "
+    print "or press 'ENTER' key to find sine(#{memory}): "
     num = gets.chomp
     num = num.downcase
 
@@ -196,10 +196,10 @@ def sin_func(memory)
         return memory
     end
 
-    if num == "last"
+    if num == ""
         memory = Math::sin(memory* Math::PI / 180)
     else
-        num = num.to_f
+        num = Float(num)
         memory = Math::sin(num * Math::PI / 180)
     end
     puts "The sine is #{memory}"
@@ -209,7 +209,7 @@ end
 
 def cos_func(memory)
     puts "\nEnter the number you wish to use COS on (in degrees)"
-    print "or enter word 'last' to find cos(#{memory}): "
+    print "or press 'ENTER' key to find cos(#{memory}): "
     num = gets.chomp
     num = num.downcase
 
@@ -218,10 +218,10 @@ def cos_func(memory)
         return memory
     end
 
-    if num == "last"
+    if num == ""
         memory = Math::cos(memory * Math::PI / 180)
     else
-        num = num.to_f
+        num = Float(num)
         memory = Math::cos(num * Math::PI / 180)
     end
     memory = memory.round(10)
@@ -232,7 +232,7 @@ end
 
 def tan_func(memory)
     puts "\nEnter the number you wish to use TAN on (in degrees)"
-    print "or enter word 'last' to find tan(#{memory}): "
+    print "or press 'ENTER' key to find tan(#{memory}): "
     num = gets.chomp
     num = num.downcase
 
@@ -241,25 +241,14 @@ def tan_func(memory)
         return memory
     end
 
-    if num == "last"
-        # check if num is 90 + 180x
-        temp = memory%180
-        puts temp
-        if temp == 90
-            puts "\nINVALID INPUT\nMemory UNCHANGED"
-            puts "Returning to Operations Menu."
-        else
+    if num == ""
+        if valid_tan(memory) == true
             memory = Math::tan(memory * Math::PI / 180)
             puts "The tangent is #{memory}"
         end
     else
-        num = num.to_f
-        # check if num is 90 + 180x
-        temp = num%180
-        if temp == 90
-            puts "\nINVALID INPUT\nMemory UNCHANGED"
-            puts "Returning to Operations Menu."
-        else
+        num = Float(num)
+        if valid_tan(num) == true
             memory = Math::tan(num * Math::PI / 180)
             puts "The tangent is #{memory}"
         end
@@ -267,6 +256,17 @@ def tan_func(memory)
     return memory.round(10)
 end
 
+def valid_tan(entry)
+    is_valid = true 
+    temp = entry % 180
+    # check if num is 90 + 180x
+    if temp == 90
+        puts "\nDOMAIN ERROR!\nMemory UNCHANGED"
+        puts "Returning to Operations Menu."
+        is_valid = false
+    end
+    return is_valid
+end
 
 def exp_func(memory)
     puts "\nEnter the number you wish to be the exponent of e"
@@ -282,8 +282,7 @@ def exp_func(memory)
     if num == "last"
         memory = Math::exp(memory)
     else
-        num = num + 0
-        num = num.to_f
+        num = Float(num)
         memory = Math::exp(num)
     end
     memory = memory.round(10)
@@ -311,8 +310,7 @@ def nlog_func(memory)
         memory = Math.log(num)
         puts "The Natural Log is #{memory}"
     else
-        num = num + 0
-        num = num.to_f
+        num = Float(num)
         memory = Math.log(num)
         puts "The Natural Log is #{memory}"
     end
