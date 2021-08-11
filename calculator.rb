@@ -40,6 +40,10 @@ def display_menu
 
 end
 
+def mem_mssg(memory)
+    puts  "\nMost recent result in memory is #{memory}"
+end
+
 # checks to see if user wants to cancel current operation
 def check_cancel(user_string)
     is_cancel = false
@@ -305,16 +309,11 @@ def nlog_func(memory)
         return memory
     end
 
-    # determine if number to be evaluated is within valid domain
-    if num <= '0' || (num == "" && memory <= 0)
-        puts "\nERROR: INVALID INPUT\nNo natural log for non-positive numbers!"
-        puts "Last value remains UNCHANGED."
-    # uses last value in memory as long as it is greater than zero
-    elsif num == "" && memory > 0
+    # determine if user wants to use memory value or new value
+    if num == ""
         num = memory
         memory = Math.log(num).round(10)
         puts "The Natural Log is #{memory}"
-    # uses new number input by user, that is in valid domain
     else
         num = Float(num)
         memory = Math.log(num).round(10)
@@ -359,7 +358,6 @@ def power2(memory)
     else
         memory = 2**Float(num)
     end
-    memory = memory.round(10)
     puts "The answer is #{memory}"
     return memory
 end
@@ -400,7 +398,6 @@ def power3(memory)
     else
         memory = 3**Float(num)
     end
-    memory = memory.round(10)
     puts "The answer is #{memory}"
     return memory
 end
