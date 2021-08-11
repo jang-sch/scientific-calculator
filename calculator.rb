@@ -192,8 +192,8 @@ def div_func(memory)
     return memory
 end
 
-# determine if number is zero and help handle divide-by-zero errors 
-# when working with floats. Ruby does not raise divide-by-zero 
+# determine if number is zero; helps handle divide-by-zero errors 
+# when working with floats because Ruby does not raise divide-by-zero
 # errors when working with floats.
 def is_zero(sample_number)
     is_zero = false
@@ -205,8 +205,8 @@ end
 
 # obtains sine of desired number, either from new input or from memory
 def sin_func(memory)
-    puts "\nEnter the number you wish to use SIN on (in degrees)"
-    print "or only press 'ENTER' key to find sine(#{memory}): "
+    puts "\nEnter the number you wish to use SINE on (in degrees)"
+    puts "or only press 'ENTER' key to find sine(#{memory}): "
     num = gets.chomp
     num = num.downcase
 
@@ -321,15 +321,14 @@ def nlog_func(memory)
     end
 
     # determine if user wants to use memory value or new value
-    if num == ""
-        num = memory
-        memory = Math.log(num).round(10)
-        puts "The Natural Log is #{memory}"
-    else
-        num = Float(num)
-        memory = Math.log(num).round(10)
-        puts "The Natural Log is #{memory}"
-    end
+    raw_num = (num == "") ? memory : Float(num)
+    
+    # determine if valid num for ln(num), because Ruby gives +/- infinity
+    raise Math::DomainError if raw_num == 0
+    # proceed if valid (non-zero)
+    memory = Math.log(raw_num).round(10)
+    puts "The Natural Log is #{memory}"
+
     return memory
 end
 
@@ -337,7 +336,6 @@ end
 def square_root(memory)
     puts "\nEnter the number you wish to find the square root of,"
     print "or only press 'ENTER' key to find sqrt(#{memory}): "
-    
     num = gets.chomp
     num = num.downcase
 
@@ -377,7 +375,6 @@ end
 def cube_root(memory)
     puts "\nEnter the number you wish to find the cube root of,"
     puts "or only press 'ENTER' key to find cbrt(#{memory}): "
-
     num = gets.chomp
     num = num.downcase
 
@@ -417,7 +414,6 @@ end
 def change_sign(memory)
     puts "Enter  a new number to change the sign of "
     print "or only press 'ENTER' key to change #{memory}: "
-    
     num = gets.chomp
     num = num.downcase
 
