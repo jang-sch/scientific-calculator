@@ -37,7 +37,7 @@ def display_menu
     puts " 14\tAdd Decimal point"
     puts " 15\tChange Sign (+/-) or (-/+)"
     puts " CANCEL\tCancels calculator option"
-    puts " CLEAR\tClears memory (input option)"
+    puts " CLEAR\tClears memory to '0' (input option)"
     puts " EXIT\tTo exit the calculator"
 
 end
@@ -52,7 +52,7 @@ def check_cancel(user_string)
 end
 
 
-def add_func(memory) 
+def add_func(memory)
     puts "Enter the numbers you wish to ADD:"
     sum = 0 # needs this
     num_string = gets.chomp
@@ -405,6 +405,7 @@ end
 
 def make_decimal(memory)
     # see commment in switch statment case 14
+    
 end
 
 
@@ -440,10 +441,10 @@ while true
     display_menu
     puts  "\nMost recent result in memory is #{last_value}"
     print "Enter choice from menu: "
-    selection = gets.chomp    
+    selection = gets.chomp
     puts  ""
     selection = selection.downcase
-    
+
     begin
         case selection
         when '1'
