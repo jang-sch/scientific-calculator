@@ -371,7 +371,7 @@ def power2(memory)
     return memory
 end
 
-
+# obtains cube root of desired number, either from new input or from memory
 def cube_root(memory)
     puts "\nEnter the number you wish to find the cube root of,"
     puts "or only press 'ENTER' key to find cbrt(#{memory}): "
