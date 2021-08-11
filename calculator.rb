@@ -65,6 +65,7 @@ def add_func(memory)
             sum += Float(num)
         }
         memory += sum
+        memory = memory.round(10)
         puts "Sum is #{memory}"
         return memory
     end
@@ -95,6 +96,7 @@ def sub_func(memory)
         memory -= Float(num)
         }
     end
+    memory = memory.round(10)
     puts "The difference is #{memory}"
     return memory
 end
@@ -125,6 +127,7 @@ def mult_func(memory)
     else
         memory = 0
     end
+    memory = memory.round(10)
     puts "The answer is #{memory}"
     return memory
 end
@@ -160,19 +163,21 @@ def div_func(memory)
             div_sum *= Integer(num)
         }
         memory = Float(div_array[0]) / div_sum
-        puts "The answer is #{memory}. Memory changed."
+        memory = memory.round(10)
+        puts "The answer is #{memory}."
     # give back zero if only one num given and memory is zero 
     else
         if is_zero(div_array[0])
             return memory
         end
         memory /= Float(div_array[0])
-        puts "The answer is #{memory}"
+        memory = memory.round(10)
+        puts "The answer is #{memory}!"
     end
     return memory
 end
 
-# to handle divide-by-zero errors when working with floats becuase Ruby
+# to handle divide-by-zero errors when working with floats because Ruby
 # does not raise divide-by-zero errors when working with floats
 def is_zero(sample_number)
     is_zero = false
@@ -202,8 +207,9 @@ def sin_func(memory)
         num = Float(num)
         memory = Math::sin(num * Math::PI / 180)
     end
+    memory = memory.round(10)
     puts "The sine is #{memory}"
-    return memory.round(10)
+    return memory
 end
 
 
@@ -241,20 +247,15 @@ def tan_func(memory)
         return memory
     end
 
-    if num == ""
-        if valid_tan(memory) == true
-            memory = Math::tan(memory * Math::PI / 180)
-            puts "The tangent is #{memory}"
-        end
-    else
-        num = Float(num)
-        if valid_tan(num) == true
-            memory = Math::tan(num * Math::PI / 180)
-            puts "The tangent is #{memory}"
-        end
+    raw_num = (num == "") ? memory : Float(num)
+
+    if valid_tan(raw_num) == true
+        memory = Math::tan(raw_num * Math::PI / 180).round(10)
+        puts "The tangent is #{memory}"
     end
-    return memory.round(10)
+    return memory
 end
+
 
 def valid_tan(entry)
     is_valid = true 
@@ -268,9 +269,10 @@ def valid_tan(entry)
     return is_valid
 end
 
+
 def exp_func(memory)
     puts "\nEnter the number you wish to be the exponent of e"
-    print "or enter word 'last' to find e^(#{memory}): "
+    print "or press 'ENTER' key to find e^(#{memory}): "
     num = gets.chomp
     num = num.downcase
 
@@ -279,7 +281,7 @@ def exp_func(memory)
         return memory
     end
 
-    if num == "last"
+    if num == ""
         memory = Math::exp(memory)
     else
         num = Float(num)
@@ -293,7 +295,7 @@ end
 
 def nlog_func(memory)
     puts "\nEnter the number you wish to use ln on"
-    print "or enter word 'last' to find ln(#{memory}): "
+    print "or press 'ENTER' key to find ln(#{memory}): "
     num = gets.chomp
     num = num.downcase
 
@@ -302,16 +304,16 @@ def nlog_func(memory)
         return memory
     end
 
-    if num <= '0' || (num == "last" && memory <= 0)
+    if num <= '0' || (num == "" && memory <= 0)
         puts "\nERROR: INVALID INPUT\nNo natural log for non-positive numbers!"
         puts "Last value remains UNCHANGED."
-    elsif num == "last" && memory > 0
+    elsif num == "" && memory > 0
         num = memory
-        memory = Math.log(num)
+        memory = Math.log(num).round(10)
         puts "The Natural Log is #{memory}"
     else
         num = Float(num)
-        memory = Math.log(num)
+        memory = Math.log(num).round(10)
         puts "The Natural Log is #{memory}"
     end
     return memory
@@ -320,7 +322,7 @@ end
 
 def square_root(memory)
     puts "\nEnter the number you wish to find the square root of,"
-    print "or enter word 'last' to find sqrt(#{memory}): "
+    print "or press 'ENTER' key to find sqrt(#{memory}): "
     
     num = gets.chomp
     num = num.downcase
@@ -328,7 +330,7 @@ def square_root(memory)
     if num == "cancel"
         puts "Square Root cancelled. Returning to Operations Menu"
         return memory
-    elsif num == "last"
+    elsif num == ""
         memory = Math.sqrt(memory).round(10)
     else
         memory = Math.sqrt(Float(num)).round(10)
@@ -339,9 +341,8 @@ end
 
 
 def power2(memory)
-    #
     puts "\nEnter the number you wish to use to raise 2,"
-    puts "or enter word 'last' to find 2^(#{memory}): "
+    puts "or press 'ENTER' key to find 2^(#{memory}): "
     print "2^"
     num = gets.chomp
     num = num.downcase
@@ -349,11 +350,12 @@ def power2(memory)
     if num == "cancel"
         puts "Power of 2 cancelled. Returning to Operations Menu."
         return memory
-    elsif num == "last"
+    elsif num == ""
         memory = 2**memory
     else
         memory = 2**Float(num)
     end
+    memory = memory.round(10)
     puts "The answer is #{memory}"
     return memory
 end
@@ -361,7 +363,7 @@ end
 
 def cube_root(memory)
     puts "\nEnter the number you wish to find the cube root of,"
-    puts "or enter word 'last' to find cbrt(#{memory}): "
+    puts "or press 'ENTER' key to find cbrt(#{memory}): "
 
     num = gets.chomp
     num = num.downcase
@@ -369,7 +371,7 @@ def cube_root(memory)
     if num == "cancel"
         puts "Cube Root cancelled. Returning to Operations Menu"
         return memory
-    elsif num == "last"
+    elsif num == ""
         memory = Math.cbrt(memory).round(10)
     else
         memory = Math.cbrt(Float(num)).round(10)
@@ -382,7 +384,7 @@ end
 def power3(memory)
     #
     puts "\nEnter the number you wish to use to raise 3,"
-    puts "or enter word 'last' to find 3^(#{memory}): "
+    puts "or press 'ENTER' key to find 3^(#{memory}): "
     print "3^"
     num = gets.chomp
     num = num.downcase
@@ -390,11 +392,12 @@ def power3(memory)
     if num == "cancel"
         puts "Power of 3 cancelled. Returning to Operations Menu."
         return memory
-    elsif num == "last"
+    elsif num == ""
         memory = 3**memory
     else
         memory = 3**Float(num)
     end
+    memory = memory.round(10)
     puts "The answer is #{memory}"
     return memory
 end
@@ -407,7 +410,7 @@ end
 
 def change_sign(memory)
     puts "Enter  a new number to change the sign of "
-    print "OR enter word 'last' to change #{memory}: "
+    print "or press 'ENTER' key to change #{memory}: "
     
     num = gets.chomp
     num = num.downcase
@@ -415,11 +418,9 @@ def change_sign(memory)
     if num == "cancel"
         puts "Negation cancelled. Returning to Operations Menu"
         return memory
-    elsif num == "last"
-        # memory = memory.abs() * -1
+    elsif num == ""
         memory *= -1
     else
-        # memory = Float(num).abs() * -1
         memory = Float(num) * -1
     end
     puts "Negated number is #{memory}"
@@ -494,7 +495,7 @@ while true
         end
 
     rescue ArgumentError
-        puts "\nERROR!"
+        puts "\nENTRY ERROR!"
         puts "Must evaluate a number.\nMemory UNCHANGED"
         puts "Returning to Menu."
     rescue ZeroDivisionError
