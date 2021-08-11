@@ -10,9 +10,9 @@
 # #############################################################################
 
 # #############################################################################
-# function definitions
+# function definitions section
 
-# display menu
+# display menu with choices for user, and brief descriptions
 def display_menu
 
     puts "\n----------------------------------------------------------------\n"
@@ -20,7 +20,6 @@ def display_menu
     puts "----------------------------------------------------------------"
     puts " Choice\tDescription\n"
     puts " ------\t-----------"
-
     puts " 1\tAddition"
     puts " 2\tSubtraction"
     puts " 3\tMultiplication"
@@ -34,15 +33,14 @@ def display_menu
     puts " 11\tPower of 2 (2^x)"
     puts " 12\tCube Root"
     puts " 13\tPower of 3 (3^x)"
-    puts " 14\tAdd Decimal point"
-    puts " 15\tChange Sign (+/-) or (-/+)"
+    puts " 14\tChange Sign (+/-) or (-/+)"
     puts " CANCEL\tCancels calculator option"
     puts " CLEAR\tClears memory to '0' (input option)"
     puts " EXIT\tTo exit the calculator"
 
 end
 
-
+# checks to see if user wants to cancel current operation
 def check_cancel(user_string)
     is_cancel = false
     if user_string.downcase.include?("cancel")
@@ -51,11 +49,12 @@ def check_cancel(user_string)
     return is_cancel
 end
 
-
+# adds user number(s) to memory
 def add_func(memory)
     puts "Enter the numbers you wish to ADD:"
     sum = 0 # needs this
     num_string = gets.chomp
+
     if check_cancel(num_string) == true
         puts "\nAddition cancelled, returning to Operations Menu"
         return memory
@@ -71,7 +70,7 @@ def add_func(memory)
     end
 end
 
-
+# subtracts user number(s) from first number input or memory
 def sub_func(memory)
     puts "Enter numbers you wish to SUBTRACT: "
     num_string = gets.chomp
@@ -83,14 +82,14 @@ def sub_func(memory)
 
     diff_array = num_string.split()
 
-    # if last_value == 0 and multiple numbers given
+    # if last_value == 0 and multiple numbers given (subtract from first)
     if memory == 0 && diff_array.size() > 1
         diffs_sum = 0
         diff_array[1..-1].each {|num|
             diffs_sum += Float(num)
         }
         memory = Float(diff_array[0]) - diffs_sum
-    # otherwise if last_value not zero or only one number given
+    # if last_value != zero or only one number given, subtract from memory
     else
         diff_array.each {|num|
         memory -= Float(num)
@@ -101,7 +100,7 @@ def sub_func(memory)
     return memory
 end
 
-
+# multiplies number(s) by memory or each other depending on if memory == 0
 def mult_func(memory)
     puts "\nEnter the numbers you wish to MULTIPLY: "
     mult_sum = 1 # needs this
@@ -132,7 +131,7 @@ def mult_func(memory)
     return memory
 end
 
-
+# divides number(s) into memory or from first number depending if memory == 0
 def div_func(memory)
     puts "Enter the numbers you wish to DIVIDE: "
     div_sum = 1 # needs this
@@ -189,10 +188,10 @@ def is_zero(sample_number)
     return is_zero
 end
 
-
+# obtains sine of desired number, either from new input or from memory
 def sin_func(memory)
     puts "\nEnter the number you wish to use SIN on (in degrees)"
-    print "or press 'ENTER' key to find sine(#{memory}): "
+    print "or only press 'ENTER' key to find sine(#{memory}): "
     num = gets.chomp
     num = num.downcase
 
@@ -212,10 +211,10 @@ def sin_func(memory)
     return memory
 end
 
-
+# obtains cosine of desired number, either from new input or from memory
 def cos_func(memory)
     puts "\nEnter the number you wish to use COS on (in degrees)"
-    print "or press 'ENTER' key to find cos(#{memory}): "
+    print "or only press 'ENTER' key to find cos(#{memory}): "
     num = gets.chomp
     num = num.downcase
 
@@ -235,10 +234,10 @@ def cos_func(memory)
     return memory
 end
 
-
+# obtains tangent of desired number, either from new input or from memory
 def tan_func(memory)
     puts "\nEnter the number you wish to use TAN on (in degrees)"
-    print "or press 'ENTER' key to find tan(#{memory}): "
+    print "or only press 'ENTER' key to find tan(#{memory}): "
     num = gets.chomp
     num = num.downcase
 
@@ -256,7 +255,7 @@ def tan_func(memory)
     return memory
 end
 
-
+# to determine if a number is within valid domain for tangent
 def valid_tan(entry)
     is_valid = true 
     temp = entry % 180
@@ -269,10 +268,11 @@ def valid_tan(entry)
     return is_valid
 end
 
-
+# raises e to the power of desired number, either new number or from memory
 def exp_func(memory)
     puts "\nEnter the number you wish to be the exponent of e"
-    print "or press 'ENTER' key to find e^(#{memory}): "
+    puts "or only press 'ENTER' key to find e^(#{memory}): "
+    print "e^"
     num = gets.chomp
     num = num.downcase
 
@@ -281,6 +281,7 @@ def exp_func(memory)
         return memory
     end
 
+    # determines if user wants to use value from memory or new value
     if num == ""
         memory = Math::exp(memory)
     else
@@ -292,10 +293,10 @@ def exp_func(memory)
     return memory
 end
 
-
+# obtains natural log of desired number, either from new input or from memory
 def nlog_func(memory)
     puts "\nEnter the number you wish to use ln on"
-    print "or press 'ENTER' key to find ln(#{memory}): "
+    print "or only press 'ENTER' key to find ln(#{memory}): "
     num = gets.chomp
     num = num.downcase
 
@@ -304,13 +305,16 @@ def nlog_func(memory)
         return memory
     end
 
+    # determine if number to be evaluated is within valid domain
     if num <= '0' || (num == "" && memory <= 0)
         puts "\nERROR: INVALID INPUT\nNo natural log for non-positive numbers!"
         puts "Last value remains UNCHANGED."
+    # uses last value in memory as long as it is greater than zero
     elsif num == "" && memory > 0
         num = memory
         memory = Math.log(num).round(10)
         puts "The Natural Log is #{memory}"
+    # uses new number input by user, that is in valid domain
     else
         num = Float(num)
         memory = Math.log(num).round(10)
@@ -319,10 +323,10 @@ def nlog_func(memory)
     return memory
 end
 
-
+# obtains square root of desired number, either from new input or from memory
 def square_root(memory)
     puts "\nEnter the number you wish to find the square root of,"
-    print "or press 'ENTER' key to find sqrt(#{memory}): "
+    print "or only press 'ENTER' key to find sqrt(#{memory}): "
     
     num = gets.chomp
     num = num.downcase
@@ -339,10 +343,10 @@ def square_root(memory)
     return memory
 end
 
-
+# obtains power of 2 of desired number, either from new input or from memory
 def power2(memory)
-    puts "\nEnter the number you wish to use to raise 2,"
-    puts "or press 'ENTER' key to find 2^(#{memory}): "
+    puts "\nEnter the number you wish to be the exponent of 2"
+    puts "or only press 'ENTER' key to find 2^(#{memory}): "
     print "2^"
     num = gets.chomp
     num = num.downcase
@@ -363,7 +367,7 @@ end
 
 def cube_root(memory)
     puts "\nEnter the number you wish to find the cube root of,"
-    puts "or press 'ENTER' key to find cbrt(#{memory}): "
+    puts "or only press 'ENTER' key to find cbrt(#{memory}): "
 
     num = gets.chomp
     num = num.downcase
@@ -380,11 +384,10 @@ def cube_root(memory)
     return memory
 end
 
-
+# obtains power of 3 of desired number, either from new input or from memory
 def power3(memory)
-    #
-    puts "\nEnter the number you wish to use to raise 3,"
-    puts "or press 'ENTER' key to find 3^(#{memory}): "
+    puts "\nEnter the number you wish to be the exponent of 3"
+    puts "or only press 'ENTER' key to find 3^(#{memory}): "
     print "3^"
     num = gets.chomp
     num = num.downcase
@@ -402,20 +405,15 @@ def power3(memory)
     return memory
 end
 
-
-def make_decimal(memory)
-    # see commment in switch statment case 14
-    
-end
-
-
+# changes number from positive to negative or negative to positive 
 def change_sign(memory)
     puts "Enter  a new number to change the sign of "
-    print "or press 'ENTER' key to change #{memory}: "
+    print "or only press 'ENTER' key to change #{memory}: "
     
     num = gets.chomp
     num = num.downcase
 
+    # to determine if user wants to use memory number or new number
     if num == "cancel"
         puts "Negation cancelled. Returning to Operations Menu"
         return memory
@@ -426,17 +424,18 @@ def change_sign(memory)
     end
     puts "Negated number is #{memory}"
     return memory
-
 end
 
 # #############################################################################
 # global variables
 
+# to keep track of last operation result
 last_value = 0.0
 
 # #############################################################################
 # main script
 
+# continuous loop that runs calculator program until user enters 'exit'
 while true
     display_menu
     puts  "\nMost recent result in memory is #{last_value}"
@@ -445,6 +444,7 @@ while true
     puts  ""
     selection = selection.downcase
 
+    # cases for user operation selection from menu
     begin
         case selection
         when '1'
@@ -474,14 +474,6 @@ while true
         when '13'
             last_value = power3(last_value)
         when '14'
-            puts "Decimal selected"
-            # if already decimal, say "already a decimal"
-            # if a whole number (with no decimal fraction), just function as add
-
-            # determine if has decimal fractional value using 
-                # is_fraction = (x - floor(x) == 0)? false : true
-        when '15'
-            #puts "Change from positive to negative selected"
             last_value = change_sign(last_value)
         when "cancel"
             puts "No operation choice to cancel.\nReturning to Menu."
@@ -494,7 +486,7 @@ while true
         else
             puts "NOT a valid choice, please try again."
         end
-
+    # error handling
     rescue ArgumentError
         puts "\nENTRY ERROR!"
         puts "Must evaluate a number.\nMemory UNCHANGED"
