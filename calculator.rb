@@ -40,8 +40,14 @@ def display_menu
 
 end
 
+# to display memory message for useability
 def mem_mssg(memory)
-    puts  "\nMost recent result in memory is #{memory}"
+    if is_zero(memory)
+        message =  ""
+    else 
+        message =  "Most recent result in memory is #{memory}"
+    end
+    return message
 end
 
 # checks to see if user wants to cancel current operation
@@ -55,6 +61,7 @@ end
 
 # adds user number(s) to memory
 def add_func(memory)
+    puts mem_mssg(memory)
     puts "Enter the numbers you wish to ADD:"
     sum = 0 # needs this
     num_string = gets.chomp
@@ -76,6 +83,7 @@ end
 
 # subtracts user number(s) from first number input or memory
 def sub_func(memory)
+    puts mem_mssg(memory)
     puts "Enter numbers you wish to SUBTRACT: "
     num_string = gets.chomp
 
@@ -106,7 +114,8 @@ end
 
 # multiplies number(s) by memory or each other depending on if memory == 0
 def mult_func(memory)
-    puts "\nEnter the numbers you wish to MULTIPLY: "
+    puts mem_mssg(memory)
+    puts "Enter the numbers you wish to MULTIPLY: "
     mult_sum = 1 # needs this
     num_string = gets.chomp
 
@@ -137,6 +146,7 @@ end
 
 # divides number(s) into memory or from first number depending if memory == 0
 def div_func(memory)
+    puts mem_mssg(memory)
     puts "Enter the numbers you wish to DIVIDE: "
     div_sum = 1 # needs this
     num_string = gets.chomp
@@ -152,6 +162,8 @@ def div_func(memory)
     if memory != 0
         div_array.each {|num|
             if is_zero(num)
+                puts "DIVIDE BY ZERO ERROR.\nMemory UNCHANGED."
+                puts "Returning to Menu."
                 return memory
             end
             div_sum *= Float(num)
@@ -180,14 +192,13 @@ def div_func(memory)
     return memory
 end
 
-# to handle divide-by-zero errors when working with floats because Ruby
-# does not raise divide-by-zero errors when working with floats
+# determine if number is zero and help handle divide-by-zero errors 
+# when working with floats. Ruby does not raise divide-by-zero 
+# errors when working with floats.
 def is_zero(sample_number)
     is_zero = false
     if Float(sample_number) == 0.0
         is_zero = true
-        puts "DIVIDE BY ZERO ERROR.\nMemory UNCHANGED."
-        puts "Returning to Menu."
     end
     return is_zero
 end
