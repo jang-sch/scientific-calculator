@@ -62,18 +62,29 @@ def add_func(memory):
         # for num in sum_array
         # print(" + ".join(str(num) for num in list(sum_array)))
         # print(" = " + str(memory))
-
-        print("The sum is " + str(memory))
         memory = round(memory, 10)
+        print("The sum is " + str(memory))
         return memory
 
 
-def sub_func():
-    inp = list(map(float, input("Enter the numbers you wish to SUBTRACT: ").split()))
-    val = 0
-    val = inp[0] - (sum(inp) - inp[0])
-    print(val)
-    return val
+def sub_func(memory):
+    inp = input("Enter the numbers you wish to SUBTRACT: ")
+
+    if(check_cancel(inp) == True):
+        print("\nSubtraction canceled. Returning to Operations Menu.")
+        return memory
+
+    diff_array = list(map(float, inp.split()))
+
+    # if last_value == 0 and multiple numbers given (subtract from first)
+    if(memory == 0 and len(diff_array) > 1):
+        memory = diff_array[0] - (sum(diff_array) - diff_array[0])
+    # if last_value != zero or only one number given, subtract from memory
+    else:
+        memory -= sum(diff_array)
+        memory = round(memory, 10)
+        print("The difference is " + str(memory))
+    return memory
 
 def mult_func():
     inp = list(map(float, input("Enter the numbers you wish to MULTIPLY: ").split()))
@@ -154,7 +165,7 @@ last_value = 0
 
 while user_input != "exit":
     display_menu()
-    print("Most recent result in memory is " + str(last_value))
+    print("\nMost recent result in memory is " + str(last_value))
     user_input = str(input("\nSelect your choice: "))
     user_input = user_input.lower()
 
@@ -163,7 +174,7 @@ while user_input != "exit":
         if(user_input == "1"):
             last_value = add_func(last_value)
         elif(user_input == "2"):
-            last_value = sub_func()
+            last_value = sub_func(last_value)
         elif(user_input == "3"):
             last_value = mult_func()
         elif(user_input == "4"):
