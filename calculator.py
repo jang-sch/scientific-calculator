@@ -9,6 +9,7 @@
 # #############################################################################
 
 import math
+memory = 666
 
 def display_menu():
     print("\n----------------------------------------------------------------")
@@ -36,13 +37,36 @@ def display_menu():
     print(" EXIT\tTo exit the calculator")
     return
 
-def add_func():
-    val = 0
-    inp = list(map(float, input("Enter the numbers you wish to ADD: ").split()))
-    #might have to make this += 
-    val = sum(inp)
-    print(val)
-    return val   
+def check_cancel(user_string):
+    is_cancel = False
+    if(user_string.lower().find("cancel") != -1):
+        print("FOUND CANCEL.")
+        is_cancel = True
+    return is_cancel
+
+def add_func(memory):
+    #inp = list(map(float, input("Enter the numbers you wish to ADD: ").split()))
+    #inp = input("Enter the numbers you wish to ADD: ").split()
+
+    inp = input("Enter the numbers you wish to ADD: ")
+    # print(inp)
+
+    if(check_cancel(inp) == True):
+        print("Addition canceled. Returning to Operations Menu.")
+        return memory
+    else:
+        sum_array = list(map(float, inp.split()))
+        memory += sum(sum_array)
+
+        # pretty stuff if you have time
+        # for num in sum_array
+        # print(" + ".join(str(num) for num in list(sum_array)))
+        # print(" = " + str(memory))
+
+        print("The sum is " + str(memory))
+        memory = round(memory, 10)
+        return memory
+
 
 def sub_func():
     inp = list(map(float, input("Enter the numbers you wish to SUBTRACT: ").split()))
@@ -130,44 +154,50 @@ last_value = 0
 
 while user_input != "exit":
     display_menu()
+    print("Most recent result in memory is " + str(last_value))
     user_input = str(input("\nSelect your choice: "))
     user_input = user_input.lower()
 
-    if(user_input == "1"):
-        last_value = add_func()
-    elif(user_input == "2"):
-        last_value = sub_func()
-    elif(user_input == "3"):
-        last_value = mult_func()
-    elif(user_input == "4"):
-        last_value = div_func()
-    elif(user_input == "5"):
-        last_value = sine()
-    elif(user_input == "6"):
-        last_value = cosine()
-    elif(user_input == "7"):
-        last_value = tangent()
-    elif(user_input == "8"):
-        last_value = exponential()
-    elif(user_input == "9"):
-        last_value = natLog()
-    elif(user_input == "10"):
-        last_value = squareRoot()
-    elif(user_input == "11"):
-        last_value = power2()
-    elif(user_input == "12"):
-        last_value = cubeRoot()
-    elif(user_input == "13"):
-        last_value = power3()
-    elif(user_input == "14"):
-        print("ADD DECIMAL")
-    elif(user_input == "15"):
-        print("POS TO NEG")
-    elif(user_input == "cancel"):
-        print("NO OPERATION TO CANCEL!!")
-    elif(user_input == "clear"):
-        print("CLEAR MEMORY!!")
-    elif(user_input == "exit"):
-        print("Goodbye!!")
-    else:
-        print("invalid input")
+    try:
+
+        if(user_input == "1"):
+            last_value = add_func(last_value)
+        elif(user_input == "2"):
+            last_value = sub_func()
+        elif(user_input == "3"):
+            last_value = mult_func()
+        elif(user_input == "4"):
+            last_value = div_func()
+        elif(user_input == "5"):
+            last_value = sine()
+        elif(user_input == "6"):
+            last_value = cosine()
+        elif(user_input == "7"):
+            last_value = tangent()
+        elif(user_input == "8"):
+            last_value = exponential()
+        elif(user_input == "9"):
+            last_value = natLog()
+        elif(user_input == "10"):
+            last_value = squareRoot()
+        elif(user_input == "11"):
+            last_value = power2()
+        elif(user_input == "12"):
+            last_value = cubeRoot()
+        elif(user_input == "13"):
+            last_value = power3()
+        elif(user_input == "14"):
+            print("ADD DECIMAL")
+        elif(user_input == "15"):
+            print("POS TO NEG")
+        elif(user_input == "cancel"):
+            print("NO OPERATION TO CANCEL!!")
+        elif(user_input == "clear"):
+            print("CLEAR MEMORY!!")
+        elif(user_input == "exit"):
+            print("Goodbye!!")
+        else:
+            print("invalid input")
+    except ValueError:
+        print("\nENTRY ERROR! Must evaluate a number.")
+        print("Memory UNCHANGED. Returning to Menu.")
