@@ -203,30 +203,71 @@ def tangent(memory):
         print("The tangent is " + str(memory))
     return memory
 
-def exponential():
-    inp = float(input("Enter the number you wish to be the exponent of e: "))
-    # ^modify prompt for mem
-    val = math.exp(inp)
-    print(val)
-    return val
+# raises e to the power of desired number, either new number or from memory
+def exponential(memory):
+    print("\nEnter the number you wish to be the exponent of e")
+    print("or only press 'ENTER' key to find e^(" + str(memory) +"): ")
+    print("e^", end="")
+    inp = input()
 
-def nat_log():
-    inp = float(input("Enter the number you wish to find Natural Log of: "))
-    val = math.log(inp)
-    print(val)
-    return val
+    if(check_cancel(inp) == True):
+        print("\nExponetiation canceled. Returning to Operations Menu.")
+        return memory
+    
+    # ternary-like assignment of user's choice for exponential
+    raw_num = memory if inp == "" else float(inp)
 
+    memory = round(math.exp(raw_num), 10)
+    print("The answer is " + str(memory))
+    return memory
+
+# obtains natural log of desired number, either from new input or from memory
+def nat_log(memory):
+    print("\nEnter the number you wish to use find ln of")
+    print("or only press 'ENTER' key to find ln(" + str(memory) +"): ")
+    inp = input()
+
+    if(check_cancel(inp) == True):
+        print("\nNatural Log canceled. Returning to Operations Menu.")
+        return memory
+    
+    # ternary-like assignment of user's choice for exponential
+    raw_num = memory if inp == "" else float(inp)
+    print(raw_num)
+    memory = round(math.log(raw_num), 10)
+    print("The answer is " + str(memory))
+    return memory
+
+# obtains square root of desired number, either from new input or from memory
 def square_root():
+    print("\nEnter the number you wish to be the exponent of e")
+    print("or only press 'ENTER' key to find e^(" + str(memory) +"): ")
+    print("e^", end="")
+
+
     inp = float(input("Enter the number you wish to find the square root of: "))
     val = math.sqrt(inp)
     print(val)
     return val
 
-def power2():
-    inp = float(input("Enter the number you wish to use to raise 2: "))
-    val = 2**inp
-    print(val)
-    return val
+# obtains power of 2 of desired number, either from new input or from memory
+def power2(memory):
+    print("\nEnter the number you wish to be the exponent of 2")
+    print("or only press 'ENTER' key to find 2^(" + str(memory) +"): ")
+    print("2^", end="")
+    inp = input()
+
+    if(check_cancel(inp) == True):
+        print("\nPower of 2 canceled. Returning to Operations Menu.")
+        return memory
+    
+    # ternary-like assignment of user's choice for exponential
+    raw_num = memory if inp == "" else float(inp)
+
+    memory = round(2**raw_num, 10)
+    print("The answer is " + str(memory))
+    return memory
+
 
 def cube_root():
     inp = float(input("Enter the number you wish to find the cube root of: "))
@@ -234,11 +275,24 @@ def cube_root():
     print(val)
     return val
 
-def power3():
-    inp = float(input("Enter the number you wish to use to raise 3: "))
-    val = 3**inp
-    print(val)
-    return val
+def power3(memory):
+    print("\nEnter the number you wish to be the exponent of 3")
+    print("or only press 'ENTER' key to find 3^(" + str(memory) +"): ")
+    print("3^", end="")
+    inp = input()
+
+    if(check_cancel(inp) == True):
+        print("\nPower of 3 canceled. Returning to Operations Menu.")
+        return memory
+    
+    # ternary-like assignment of user's choice for exponential
+    raw_num = memory if inp == "" else float(inp)
+
+    memory = round(3**raw_num, 10)
+    print("The answer is " + str(memory))
+    return memory
+
+###############################################################################
 
 user_input = " "
 last_value = 0.0
@@ -266,17 +320,17 @@ while user_input != "exit":
         elif(user_input == "7"):
             last_value = tangent(last_value)
         elif(user_input == "8"):
-            last_value = exponential()
+            last_value = exponential(last_value)
         elif(user_input == "9"):
-            last_value = nat_log()
+            last_value = nat_log(last_value)
         elif(user_input == "10"):
-            last_value = square_root()
+            last_value = square_root(last_value)
         elif(user_input == "11"):
-            last_value = power2()
+            last_value = power2(last_value)
         elif(user_input == "12"):
             last_value = cube_root()
         elif(user_input == "13"):
-            last_value = power3()
+            last_value = power3(last_value)
         elif(user_input == "14"):
             print("ADD DECIMAL")
         elif(user_input == "15"):
@@ -291,12 +345,13 @@ while user_input != "exit":
             print("Goodbye!!")
         else:
             print("invalid input")
-    except ValueError:
-        print("\nENTRY ERROR! Must evaluate a number.")
-        print("Memory UNCHANGED. Returning to Menu.")
+    except ValueError as err_mssg:
+        print("\nENTRY ERROR! Must evaluate a valid number!")
+        print("\'" + str(err_mssg) + "\'")
+        print("\nMemory UNCHANGED. Returning to Menu.")
     except ZeroDivisionError:
         print("\nDIVIDE BY ZERO ERROR!\nMemory UNCHANGED")
         print("Returning to Menu.")
     except TypeError:
-        print("\nTYPE ERROR! Must evaluate a number!")
+        print("\nTYPE ERROR! Must evaluate a valid number!")
         print("Memory UNCHANGED!\nReturning to Menu.")
