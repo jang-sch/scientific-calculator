@@ -144,6 +144,7 @@ def div_func(memory):
         print("The answer is " + str(memory))
     return memory
 
+# obtains sine of desired number, either from new input or from memory
 def sine(memory):
     print("\nEnter the number you wish to use SINE on (in degrees)")
     print("or only press 'ENTER' key to find sine(" + str(memory) +"): ")
@@ -161,6 +162,7 @@ def sine(memory):
     print("The sine is " + str(memory))
     return memory
 
+# obtains cosine of desired number, either from new input or from memory
 def cosine(memory):
     print("\nEnter the number you wish to use COSINE on (in degrees)")
     print("or only press 'ENTER' key to find cosine(" + str(memory) +"): ")
@@ -178,15 +180,28 @@ def cosine(memory):
     print("The cosine is " + str(memory))
     return memory
 
-def tangent():
-    inp = float(input("Enter the number you wish to use TAN on (in degrees): "))
-    val = round(math.cos(math.radians(inp)), 10)
+# obtains tangent of desired number, either from new input or from memory
+def tangent(memory):
+    print("\nEnter the number you wish to use TANGENT on (in degrees)")
+    print("or only press 'ENTER' key to find tangent(" + str(memory) +"): ")
+    inp = input()
+
+    if(check_cancel(inp) == True):
+        print("\nTangent canceled. Returning to Operations Menu.")
+        return memory
+
+    # ternary-like assignment of user's choice for tangent
+    raw_num = memory if inp == "" else float(inp)
+
+    # test to verify if number to evaluate is in tangent's valid domain
+    val = round(math.cos(math.radians(raw_num)), 10)
+
     if(val == 0):
-        print("Domain ERROR! Returning to operations menu")
+        print("\nDOMAIN ERROR! Returning to operations menu")
     else:
-        val = round(math.tan(math.radians(inp)), 10)
-        print(val)
-    return val
+        memory = round(math.tan(math.radians(raw_num)), 10)
+        print("The tangent is " + str(memory))
+    return memory
 
 def exponential():
     inp = float(input("Enter the number you wish to be the exponent of e: "))
@@ -249,7 +264,7 @@ while user_input != "exit":
         elif(user_input == "6"):
             last_value = cosine(last_value)
         elif(user_input == "7"):
-            last_value = tangent()
+            last_value = tangent(last_value)
         elif(user_input == "8"):
             last_value = exponential()
         elif(user_input == "9"):
