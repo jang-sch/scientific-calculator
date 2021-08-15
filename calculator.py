@@ -144,17 +144,39 @@ def div_func(memory):
         print("The answer is " + str(memory))
     return memory
 
-def sine():
-    inp = float(input("Enter the number you wish to use SIN on (in degrees): "))
-    val = round(math.sin(math.radians(inp)), 10)
-    print(val)
-    return val
+def sine(memory):
+    print("\nEnter the number you wish to use SINE on (in degrees)")
+    print("or only press 'ENTER' key to find sine(" + str(memory) +"): ")
+    inp = input()
 
-def cosine():
-    inp = float(input("Enter the number you wish to use COS on (in degrees): "))
-    val = round(math.cos(math.radians(inp)), 10)
-    print(val)
-    return val
+    if(check_cancel(inp) == True):
+        print("\nSine canceled. Returning to Operations Menu.")
+        return memory
+
+    # determine the user's choice for sine
+    if(inp == ""):
+        memory = round(math.sin(math.radians(memory)), 10)
+    else:
+        memory = round(math.sin(math.radians(float(inp))), 10)
+    print("The sine is " + str(memory))
+    return memory
+
+def cosine(memory):
+    print("\nEnter the number you wish to use COSINE on (in degrees)")
+    print("or only press 'ENTER' key to find cosine(" + str(memory) +"): ")
+    inp = input()
+
+    if(check_cancel(inp) == True):
+        print("\nCosine canceled. Returning to Operations Menu.")
+        return memory
+
+    # determine the user's choice for sine
+    if(inp == ""):
+        memory = round(math.cos(math.radians(memory)), 10)
+    else:
+        memory = round(math.cos(math.radians(float(inp))), 10)
+    print("The cosine is " + str(memory))
+    return memory
 
 def tangent():
     inp = float(input("Enter the number you wish to use TAN on (in degrees): "))
@@ -223,9 +245,9 @@ while user_input != "exit":
         elif(user_input == "4"):
             last_value = div_func(last_value)
         elif(user_input == "5"):
-            last_value = sine()
+            last_value = sine(last_value)
         elif(user_input == "6"):
-            last_value = cosine()
+            last_value = cosine(last_value)
         elif(user_input == "7"):
             last_value = tangent()
         elif(user_input == "8"):
@@ -260,3 +282,6 @@ while user_input != "exit":
     except ZeroDivisionError:
         print("\nDIVIDE BY ZERO ERROR!\nMemory UNCHANGED")
         print("Returning to Menu.")
+    except TypeError:
+        print("\nTYPE ERROR! Must evaluate a number!")
+        print("Memory UNCHANGED!\nReturning to Menu.")
