@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # #############################################################################
 # Course: cmps3500
 # Class Project
@@ -9,7 +10,6 @@
 # #############################################################################
 
 import math
-memory = 666
 
 def display_menu():
     print("\n----------------------------------------------------------------")
@@ -37,6 +37,7 @@ def display_menu():
     print(" EXIT\tTo exit the calculator")
     return
 
+# checks to see if user wants to cancel current operation
 def check_cancel(user_string):
     is_cancel = False
     if(user_string.lower().find("cancel") != -1):
@@ -44,12 +45,9 @@ def check_cancel(user_string):
         is_cancel = True
     return is_cancel
 
+# adds user number(s) to memory
 def add_func(memory):
-    #inp = list(map(float, input("Enter the numbers you wish to ADD: ").split()))
-    #inp = input("Enter the numbers you wish to ADD: ").split()
-
     inp = input("Enter the numbers you wish to ADD: ")
-    # print(inp)
 
     if(check_cancel(inp) == True):
         print("Addition canceled. Returning to Operations Menu.")
@@ -57,16 +55,11 @@ def add_func(memory):
     else:
         sum_array = list(map(float, inp.split()))
         memory += sum(sum_array)
-
-        # pretty stuff if you have time
-        # for num in sum_array
-        # print(" + ".join(str(num) for num in list(sum_array)))
-        # print(" = " + str(memory))
         memory = round(memory, 10)
         print("The sum is " + str(memory))
         return memory
 
-
+# subtracts user number(s) from first number input or memory
 def sub_func(memory):
     inp = input("Enter the numbers you wish to SUBTRACT: ")
 
@@ -130,13 +123,13 @@ def exponential():
     print(val)
     return val
 
-def natLog():
+def nat_log():
     inp = float(input("Enter the number you wish to find Natural Log of: "))
     val = math.log(inp)
     print(val)
     return val
 
-def squareRoot():
+def square_root():
     inp = float(input("Enter the number you wish to find the square root of: "))
     val = math.sqrt(inp)
     print(val)
@@ -148,7 +141,7 @@ def power2():
     print(val)
     return val
 
-def cubeRoot():
+def cube_root():
     inp = float(input("Enter the number you wish to find the cube root of: "))
     val = inp**(1/3)
     print(val)
@@ -188,13 +181,13 @@ while user_input != "exit":
         elif(user_input == "8"):
             last_value = exponential()
         elif(user_input == "9"):
-            last_value = natLog()
+            last_value = nat_log()
         elif(user_input == "10"):
-            last_value = squareRoot()
+            last_value = square_root()
         elif(user_input == "11"):
             last_value = power2()
         elif(user_input == "12"):
-            last_value = cubeRoot()
+            last_value = cube_root()
         elif(user_input == "13"):
             last_value = power3()
         elif(user_input == "14"):
