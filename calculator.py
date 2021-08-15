@@ -101,18 +101,48 @@ def mult_func(memory):
         memory = mult_sum
     # 0 if only one input give and memory is zero b/c zero * any number = 0
     else:
-        memory = 0
+        memory = 0.0
 
     print("The answer is " + str(memory))
     return memory
 
+# divides number(s) into memory or from first number depending if memory == 0
+def div_func(memory):
+    div_sum = 1
+    inp = input("Enter the numbers you wish to DIVIDE: ")
 
-def div_func():
-    #inp = list(map(float, input("Enter the numbers you wish to DIVIDE: ").split()))
-    val = 1
+    if(check_cancel(inp) == True):
+        print("\nDivision canceled. Returning to Operations Menu.")
+        return memory
     
-    print(val)
-    return val
+    div_array = list(map(float, inp.split()))
+
+    # if non-zero memory, divide all input numbers into memory
+    if(memory != 0):
+        for i in div_array:
+            # check if divide by zero if python doesnt do it
+            div_sum = div_sum * i
+        memory /= div_sum
+        memory = round(memory, 10)
+        print("The answer is " + str(memory))
+    # otherwise, starting fresh and overwriting old memory with new ops
+    elif(memory == 0 and len(div_array) > 1):
+        # check if zeros
+        for i in range(len(div_array)):
+            if(i < 1):
+                first = div_array[i]
+            else:
+                temp = div_array[i]
+                div_sum *= temp
+        memory = first / div_sum
+        memory = round(memory, 10)
+        print("The answer is " + str(memory))
+    # give back zero if only one num given and memory is zero 
+    else:
+        memory /= div_array[0]
+        memory = round(memory, 10)
+        print("The answer is " + str(memory))
+    return memory
 
 def sine():
     inp = float(input("Enter the number you wish to use SIN on (in degrees): "))
@@ -174,7 +204,7 @@ def power3():
     return val
 
 user_input = " "
-last_value = 0
+last_value = 0.0
 
 while user_input != "exit":
     display_menu()
@@ -191,7 +221,7 @@ while user_input != "exit":
         elif(user_input == "3"):
             last_value = mult_func(last_value)
         elif(user_input == "4"):
-            last_value = div_func()
+            last_value = div_func(last_value)
         elif(user_input == "5"):
             last_value = sine()
         elif(user_input == "6"):
@@ -227,3 +257,6 @@ while user_input != "exit":
     except ValueError:
         print("\nENTRY ERROR! Must evaluate a number.")
         print("Memory UNCHANGED. Returning to Menu.")
+    except ZeroDivisionError:
+        print("\nDIVIDE BY ZERO ERROR!\nMemory UNCHANGED")
+        print("Returning to Menu.")
