@@ -29,9 +29,9 @@ def display_menu
     puts " 7\tTangent (degree mode)"
     puts " 8\tExponential (exp) - e to power of a number"
     puts " 9\tNatural Logarithm (ln)"
-    puts " 10\tSquare Root"
+    puts " 10\tSquare Root (sqrt)"
     puts " 11\tPower of 2 (2^x)"
-    puts " 12\tCube Root"
+    puts " 12\tCube Root (cbrt)"
     puts " 13\tPower of 3 (3^x)"
     puts " 14\tChange Sign (+/-) or (-/+)"
     puts " CANCEL\tCancels calculator option"
@@ -169,6 +169,7 @@ def div_func(memory)
             div_sum *= Float(num)
         }
         memory /= div_sum
+        puts "The answer is #{memory}"
     # otherwise, starting fresh and overwriting old memory with new ops
     elsif memory == 0 && div_array.size() > 1
         div_array[1..-1].each {|num|
@@ -179,7 +180,7 @@ def div_func(memory)
         }
         memory = Float(div_array[0]) / div_sum
         memory = memory.round(10)
-        puts "The answer is #{memory}."
+        puts "The answer is #{memory}"
     # give back zero if only one num given and memory is zero 
     else
         if is_zero(div_array[0])
@@ -187,7 +188,7 @@ def div_func(memory)
         end
         memory /= Float(div_array[0])
         memory = memory.round(10)
-        puts "The answer is #{memory}!"
+        puts "The answer is #{memory}"
     end
     return memory
 end
@@ -261,6 +262,7 @@ def tan_func(memory)
         return memory
     end
 
+    # ternary assignment of user's choice for tangent
     raw_num = (num == "") ? memory : Float(num)
 
     if valid_tan(raw_num) == true
@@ -412,7 +414,7 @@ end
 
 # changes number from positive to negative or negative to positive 
 def change_sign(memory)
-    puts "Enter  a new number to change the sign of "
+    puts "Enter  a new number to change the sign of, "
     print "or only press 'ENTER' key to change #{memory}: "
     num = gets.chomp
     num = num.downcase
