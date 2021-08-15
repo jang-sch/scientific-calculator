@@ -26,14 +26,13 @@ def display_menu():
     print(" 7\tTangent (degree mode)")
     print(" 8\tExponential (exp) - e to power of a number")
     print(" 9\tNatural Logarithm (ln)")
-    print(" 10\tSquare Root")
+    print(" 10\tSquare Root (sqrt)")
     print(" 11\tPower of 2 (2^x)")
-    print(" 12\tCube Root")
+    print(" 12\tCube Root (cbrt)")
     print(" 13\tPower of 3 (3^x)")
-    print(" 14\tAdd Decimal point")
-    print(" 15\tChange from positive to negative (+/-)")
+    print(" 14\tChange Sign (+/-) or (-/+)")
     print(" CANCEL\tCancels calculator option")
-    print(" CLEAR\tClears current input option (clear memory)")
+    print(" CLEAR\tClears memory to '0' (input option)")
     print(" EXIT\tTo exit the calculator")
     return
 
@@ -146,7 +145,7 @@ def div_func(memory):
 
 # obtains sine of desired number, either from new input or from memory
 def sine(memory):
-    print("\nEnter the number you wish to use SINE on (in degrees)")
+    print("\nEnter the number you wish to use SINE on (in degrees),")
     print("or only press 'ENTER' key to find sine(" + str(memory) +"): ")
     inp = input()
 
@@ -164,7 +163,7 @@ def sine(memory):
 
 # obtains cosine of desired number, either from new input or from memory
 def cosine(memory):
-    print("\nEnter the number you wish to use COSINE on (in degrees)")
+    print("\nEnter the number you wish to use COSINE on (in degrees),")
     print("or only press 'ENTER' key to find cosine(" + str(memory) +"): ")
     inp = input()
 
@@ -182,7 +181,7 @@ def cosine(memory):
 
 # obtains tangent of desired number, either from new input or from memory
 def tangent(memory):
-    print("\nEnter the number you wish to use TANGENT on (in degrees)")
+    print("\nEnter the number you wish to use TANGENT on (in degrees),")
     print("or only press 'ENTER' key to find tangent(" + str(memory) +"): ")
     inp = input()
 
@@ -205,7 +204,7 @@ def tangent(memory):
 
 # raises e to the power of desired number, either new number or from memory
 def exponential(memory):
-    print("\nEnter the number you wish to be the exponent of e")
+    print("\nEnter the number you wish to be the exponent of e,")
     print("or only press 'ENTER' key to find e^(" + str(memory) +"): ")
     print("e^", end="")
     inp = input()
@@ -223,7 +222,7 @@ def exponential(memory):
 
 # obtains natural log of desired number, either from new input or from memory
 def nat_log(memory):
-    print("\nEnter the number you wish to use find ln of")
+    print("\nEnter the number you wish to use find ln of,")
     print("or only press 'ENTER' key to find ln(" + str(memory) +"): ")
     inp = input()
 
@@ -231,24 +230,29 @@ def nat_log(memory):
         print("\nNatural Log canceled. Returning to Operations Menu.")
         return memory
     
-    # ternary-like assignment of user's choice for exponential
+    # ternary-like assignment of user's choice for natural log
     raw_num = memory if inp == "" else float(inp)
-    print(raw_num)
+
     memory = round(math.log(raw_num), 10)
     print("The answer is " + str(memory))
     return memory
 
 # obtains square root of desired number, either from new input or from memory
-def square_root():
-    print("\nEnter the number you wish to be the exponent of e")
-    print("or only press 'ENTER' key to find e^(" + str(memory) +"): ")
-    print("e^", end="")
+def square_root(memory):
+    print("\nEnter the number you wish to find the square root of,")
+    print("or only press 'ENTER' key to find sqrt(" + str(memory) +"): ")
+    inp = input()
 
+    if(check_cancel(inp) == True):
+        print("\nSquare root canceled. Returning to Operations Menu.")
+        return memory
 
-    inp = float(input("Enter the number you wish to find the square root of: "))
-    val = math.sqrt(inp)
-    print(val)
-    return val
+    # ternary-like assignment of user's choice for square root
+    raw_num = memory if inp == "" else float(inp)
+
+    memory = round(math.sqrt(raw_num), 10)
+    print("The square root is " + str(memory))
+    return memory
 
 # obtains power of 2 of desired number, either from new input or from memory
 def power2(memory):
@@ -261,20 +265,36 @@ def power2(memory):
         print("\nPower of 2 canceled. Returning to Operations Menu.")
         return memory
     
-    # ternary-like assignment of user's choice for exponential
+    # ternary-like assignment of user's choice for power of 2
     raw_num = memory if inp == "" else float(inp)
 
     memory = round(2**raw_num, 10)
     print("The answer is " + str(memory))
     return memory
 
+# obtains cube root of desired number, either from new input or from memory
+def cube_root(memory):
+    print("\nEnter the number you wish to find the cube root of,")
+    print("or only press 'ENTER' key to find cbrt(" + str(memory) +"): ")
+    inp = input()
 
-def cube_root():
-    inp = float(input("Enter the number you wish to find the cube root of: "))
-    val = inp**(1/3)
-    print(val)
-    return val
+    if(check_cancel(inp) == True):
+        print("\nCube root canceled. Returning to Operations Menu.")
+        return memory
 
+    # ternary-like assignment of user's choice for cube root
+    raw_num = memory if inp == "" else float(inp)
+
+    # to manage python's use of complex numbers for cube roots
+    if(raw_num < 0):
+        raw_num = abs(raw_num)
+        memory = -(raw_num)**(1.0/3.0)
+    else:
+        memory = (raw_num)**(1.0/3.0)
+    print("The cube root is " + str(memory))
+    return memory
+
+# obtains power of 3 of desired number, either from new input or from memory
 def power3(memory):
     print("\nEnter the number you wish to be the exponent of 3")
     print("or only press 'ENTER' key to find 3^(" + str(memory) +"): ")
@@ -285,11 +305,28 @@ def power3(memory):
         print("\nPower of 3 canceled. Returning to Operations Menu.")
         return memory
     
-    # ternary-like assignment of user's choice for exponential
+    # ternary-like assignment of user's choice for power of 3
     raw_num = memory if inp == "" else float(inp)
 
     memory = round(3**raw_num, 10)
     print("The answer is " + str(memory))
+    return memory
+
+# changes number from positive to negative or negative to positive 
+def change_sign(memory):
+    print("\nEnter  a new number to change the sign of, ")
+    print("or only press 'ENTER' key to change " + str(memory) + ": ")
+    inp = input()
+
+    if(check_cancel(inp) == True):
+        print("\nNegation canceled. Returning to Operations Menu.")
+        return memory
+
+    # ternary-like assignment of user's choice for negation
+    raw_num = memory if inp == "" else float(inp)
+
+    memory = raw_num * -1
+    print("The negated number is " + str(memory))
     return memory
 
 ###############################################################################
@@ -328,13 +365,11 @@ while user_input != "exit":
         elif(user_input == "11"):
             last_value = power2(last_value)
         elif(user_input == "12"):
-            last_value = cube_root()
+            last_value = cube_root(last_value)
         elif(user_input == "13"):
             last_value = power3(last_value)
         elif(user_input == "14"):
-            print("ADD DECIMAL")
-        elif(user_input == "15"):
-            print("POS TO NEG")
+            last_value = change_sign(last_value)
         elif(user_input == "cancel"):
             print("NO OPERATION TO CANCEL!!")
         elif(user_input == "clear"):
@@ -344,7 +379,7 @@ while user_input != "exit":
         elif(user_input == "exit"):
             print("Goodbye!!")
         else:
-            print("invalid input")
+            print("Invalid choice!")
     except ValueError as err_mssg:
         print("\nENTRY ERROR! Must evaluate a valid number!")
         print("\'" + str(err_mssg) + "\'")
