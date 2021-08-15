@@ -175,7 +175,7 @@ def div_func(memory)
             if is_zero(num)
                 return memory
             end
-            div_sum *= Integer(num)
+            div_sum *= Float(num)
         }
         memory = Float(div_array[0]) / div_sum
         memory = memory.round(10)
@@ -325,7 +325,7 @@ def nlog_func(memory)
     
     # determine if valid num for ln(num), because Ruby gives +/- infinity
     raise Math::DomainError if raw_num == 0
-    # proceed if valid (non-zero)
+    # proceed if valid (non-zero, positive)
     memory = Math.log(raw_num).round(10)
     puts "The Natural Log is #{memory}"
 
