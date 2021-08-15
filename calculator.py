@@ -79,16 +79,36 @@ def sub_func(memory):
         print("The difference is " + str(memory))
     return memory
 
-def mult_func():
-    inp = list(map(float, input("Enter the numbers you wish to MULTIPLY: ").split()))
-    val = 1
-    for i in inp:
-        val = val * i
-    print(val)
-    return val
+# multiplies number(s) by memory or each other depending on if memory == 0
+def mult_func(memory):
+    #inp = list(map(float, input("Enter the numbers you wish to MULTIPLY: ").split()))
+    inp = input("Enter the numbers you wish to MULTIPLY: ")
+    mult_sum = 1
+
+    if(check_cancel(inp) == True):
+        print("\nMultiplication canceled. Returning to Operations Menu.")
+        return memory
+    
+    mult_array = list(map(float, inp.split()))
+
+    for i in mult_array:
+        mult_sum = mult_sum * i
+
+    if(memory != 0):
+        memory *= mult_sum
+    # if zero memory and multiple inputs, overwrite mem w/ new computation
+    elif(memory == 0 and len(mult_array) > 1):
+        memory = mult_sum
+    # 0 if only one input give and memory is zero b/c zero * any number = 0
+    else:
+        memory = 0
+
+    print("The answer is " + str(memory))
+    return memory
+
 
 def div_func():
-    inp = list(map(float, input("Enter the numbers you wish to DIVIDE: ").split()))
+    #inp = list(map(float, input("Enter the numbers you wish to DIVIDE: ").split()))
     val = 1
     
     print(val)
@@ -169,7 +189,7 @@ while user_input != "exit":
         elif(user_input == "2"):
             last_value = sub_func(last_value)
         elif(user_input == "3"):
-            last_value = mult_func()
+            last_value = mult_func(last_value)
         elif(user_input == "4"):
             last_value = div_func()
         elif(user_input == "5"):
@@ -197,7 +217,9 @@ while user_input != "exit":
         elif(user_input == "cancel"):
             print("NO OPERATION TO CANCEL!!")
         elif(user_input == "clear"):
-            print("CLEAR MEMORY!!")
+            last_value = 0.0
+            print("\nMemory has been cleared.")
+            print("Last value reset to " + str(last_value))
         elif(user_input == "exit"):
             print("Goodbye!!")
         else:
