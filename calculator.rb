@@ -172,6 +172,7 @@ def div_func(memory)
             div_sum *= Float(num)
         }
         memory /= div_sum
+        memory = memory.round(10)
         puts "The answer is #{memory}"
     # otherwise, starting fresh and overwriting old memory with new ops
     elsif memory == 0 && div_array.size() > 1
