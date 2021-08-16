@@ -14,7 +14,6 @@
 
 # display menu with choices for user, and brief descriptions
 def display_menu
-
     puts "\n----------------------------------------------------------------\n"
     puts "            Menu: Choose Which Operation to Perform             " 
     puts "----------------------------------------------------------------"
@@ -37,7 +36,6 @@ def display_menu
     puts " CANCEL\tCancels calculator option"
     puts " CLEAR\tClears memory to '0' (input option)"
     puts " EXIT\tTo exit the calculator"
-
 end
 
 # to display memory message for useability
@@ -62,14 +60,17 @@ end
 # adds user number(s) to memory
 def add_func(memory)
     puts mem_mssg(memory)
-    puts "Enter the numbers you wish to ADD:"
+    puts "Enter the number(s) you wish to ADD, separated by spaces:"
     sum = 0 # needs this
     num_string = gets.chomp
-
+    
+    # checking if user wishes to cancel by parsing user string for 'cancel'
     if check_cancel(num_string) == true
         puts "\nAddition cancelled, returning to Operations Menu"
         return memory
+    
     else
+        # split user string into array of numbers for evaluation
         sum_array = num_string.split()
         sum_array.each {|num|
             sum += Float(num)
@@ -84,7 +85,7 @@ end
 # subtracts user number(s) from first number input or memory
 def sub_func(memory)
     puts mem_mssg(memory)
-    puts "Enter numbers you wish to SUBTRACT: "
+    puts "Enter number(s) you wish to SUBTRACT, separated by spaces: "
     num_string = gets.chomp
 
     if check_cancel(num_string) == true
@@ -92,6 +93,7 @@ def sub_func(memory)
         return memory
     end
 
+    # split user string into array of numbers for evaluation
     diff_array = num_string.split()
 
     # if last_value == 0 and multiple numbers given (subtract from first)
@@ -115,8 +117,8 @@ end
 # multiplies number(s) by memory or each other depending on if memory == 0
 def mult_func(memory)
     puts mem_mssg(memory)
-    puts "Enter the numbers you wish to MULTIPLY: "
-    mult_sum = 1 # needs this
+    puts "Enter the number(s) you wish to MULTIPLY, separated by spaces: "
+    mult_sum = 1
     num_string = gets.chomp
 
     if check_cancel(num_string) == true
@@ -124,11 +126,11 @@ def mult_func(memory)
         return memory
     end
 
+    # split user string into number array, obtain running multiplication total
     mult_array = num_string.split()
     mult_array.each {|num|
         mult_sum *= Float(num)
     }
-
     # if non-zero memory, multiply input by memory 
     if memory != 0
         memory *= mult_sum
@@ -147,7 +149,7 @@ end
 # divides number(s) into memory or from first number depending if memory == 0
 def div_func(memory)
     puts mem_mssg(memory)
-    puts "Enter the numbers you wish to DIVIDE: "
+    puts "Enter the number(s) you wish to DIVIDE, separated by spaces: "
     div_sum = 1 # needs this
     num_string = gets.chomp
 
@@ -156,6 +158,7 @@ def div_func(memory)
         return memory
     end
 
+    # split user string into array of numbers for evaluation
     div_array = num_string.split()
 
     # if non-zero memory, divide all input numbers into memory
@@ -216,6 +219,7 @@ def sin_func(memory)
         return memory
     end
 
+    # determine user's choice
     if num == ""
         memory = Math::sin(memory* Math::PI / 180)
     else
@@ -239,6 +243,7 @@ def cos_func(memory)
         return memory
     end
 
+    # determine user's choice
     if num == ""
         memory = Math::cos(memory * Math::PI / 180)
     else
@@ -341,6 +346,7 @@ def square_root(memory)
     num = gets.chomp
     num = num.downcase
 
+    # determine user's choice
     if num == "cancel"
         puts "Square Root cancelled. Returning to Operations Menu"
         return memory
@@ -360,7 +366,8 @@ def power2(memory)
     print "2^"
     num = gets.chomp
     num = num.downcase
-
+    
+    # determine user's choice
     if num == "cancel"
         puts "Power of 2 cancelled. Returning to Operations Menu."
         return memory
@@ -380,6 +387,7 @@ def cube_root(memory)
     num = gets.chomp
     num = num.downcase
 
+    # determine user's choice
     if num == "cancel"
         puts "Cube Root cancelled. Returning to Operations Menu"
         return memory
@@ -400,6 +408,7 @@ def power3(memory)
     num = gets.chomp
     num = num.downcase
 
+    # determine user's choice
     if num == "cancel"
         puts "Power of 3 cancelled. Returning to Operations Menu."
         return memory
@@ -433,13 +442,13 @@ def change_sign(memory)
 end
 
 # #############################################################################
-# global variables
+# global variables section
 
 # to keep track of last operation result
 last_value = 0.0
 
 # #############################################################################
-# main script
+# main script section
 
 # continuous loop that runs calculator program until user enters 'exit'
 while true
@@ -492,7 +501,7 @@ while true
         else
             puts "NOT a valid choice, please try again."
         end
-    # error handling
+    # error handling actions
     rescue ArgumentError
         puts "\nENTRY ERROR!"
         puts "Must evaluate a number.\nMemory UNCHANGED"
