@@ -11,6 +11,10 @@
 
 import math
 
+# #############################################################################
+# function definitions section
+
+# display menu with choices for user, and brief descriptions
 def display_menu():
     print("\n----------------------------------------------------------------")
     print("            Menu: Choose Which Operation to Perform             ")
@@ -36,6 +40,14 @@ def display_menu():
     print(" EXIT\tTo exit the calculator")
     return
 
+# to display memory message for useability
+def mem_mssg(memory):
+    if(memory == 0.0):
+        print("", end="")
+    else:
+        print("\nMost recent result in memory is " + str(memory))
+    return
+
 # checks to see if user wants to cancel current operation
 def check_cancel(user_string):
     is_cancel = False
@@ -46,12 +58,15 @@ def check_cancel(user_string):
 
 # adds user number(s) to memory
 def add_func(memory):
-    inp = input("Enter the numbers you wish to ADD: ")
+    mem_mssg(memory)
+    inp = input("Enter the number(s) you wish to ADD, separated by spaces: ")
 
+    # checking if user wishes to cancel by parsing user string for 'cancel'
     if(check_cancel(inp) == True):
         print("Addition canceled. Returning to Operations Menu.")
         return memory
     else:
+        # split user string into array of numbers for evaluation
         sum_array = list(map(float, inp.split()))
         memory += sum(sum_array)
         memory = round(memory, 10)
@@ -60,12 +75,14 @@ def add_func(memory):
 
 # subtracts user number(s) from first number input or memory
 def sub_func(memory):
-    inp = input("Enter the numbers you wish to SUBTRACT: ")
+    mem_mssg(memory)
+    inp = input("Enter the number(s) to SUBTRACT, separated by spaces: ")
 
     if(check_cancel(inp) == True):
         print("\nSubtraction canceled. Returning to Operations Menu.")
         return memory
-
+    
+    # split user string into array of numbers for evaluation
     diff_array = list(map(float, inp.split()))
 
     # if last_value == 0 and multiple numbers given (subtract from first)
@@ -80,19 +97,21 @@ def sub_func(memory):
 
 # multiplies number(s) by memory or each other depending on if memory == 0
 def mult_func(memory):
-    #inp = list(map(float, input("Enter the numbers you wish to MULTIPLY: ").split()))
-    inp = input("Enter the numbers you wish to MULTIPLY: ")
     mult_sum = 1
+    mem_mssg(memory)
+    inp = input("Enter the number(s) to MULTIPLY, separated by spaces: ")
 
     if(check_cancel(inp) == True):
         print("\nMultiplication canceled. Returning to Operations Menu.")
         return memory
     
+    # split user string into array of numbers for evaluation
     mult_array = list(map(float, inp.split()))
-
+    
+    # find total value of multiplying user numbers
     for i in mult_array:
         mult_sum = mult_sum * i
-
+    # multiply user numbers by current number in memory (aka last_value)
     if(memory != 0):
         memory *= mult_sum
     # if zero memory and multiple inputs, overwrite mem w/ new computation
@@ -108,12 +127,14 @@ def mult_func(memory):
 # divides number(s) into memory or from first number depending if memory == 0
 def div_func(memory):
     div_sum = 1
-    inp = input("Enter the numbers you wish to DIVIDE: ")
+    mem_mssg(memory)
+    inp = input("Enter the number(s) to DIVIDE, separated by spaces: ")
 
     if(check_cancel(inp) == True):
         print("\nDivision canceled. Returning to Operations Menu.")
         return memory
-    
+
+    # split user string into array of numbers for evaluation
     div_array = list(map(float, inp.split()))
 
     # if non-zero memory, divide all input numbers into memory
@@ -126,7 +147,7 @@ def div_func(memory):
         print("The answer is " + str(memory))
     # otherwise, starting fresh and overwriting old memory with new ops
     elif(memory == 0 and len(div_array) > 1):
-        # check if zeros
+        # to save the first value and not include it in div_sum
         for i in range(len(div_array)):
             if(i < 1):
                 first = div_array[i]
@@ -194,7 +215,6 @@ def tangent(memory):
 
     # test to verify if number to evaluate is in tangent's valid domain
     val = round(math.cos(math.radians(raw_num)), 10)
-
     if(val == 0):
         print("\nDOMAIN ERROR! Returning to operations menu")
     else:
@@ -329,19 +349,22 @@ def change_sign(memory):
     print("The negated number is " + str(memory))
     return memory
 
-###############################################################################
+# #############################################################################
+# global variables section
 
 user_input = " "
+# to keep track of last operation result
 last_value = 0.0
+
+# #############################################################################
+# main script section
 
 while user_input != "exit":
     display_menu()
     print("\nMost recent result in memory is " + str(last_value))
     user_input = str(input("\nSelect your choice: "))
     user_input = user_input.lower()
-
     try:
-
         if(user_input == "1"):
             last_value = add_func(last_value)
         elif(user_input == "2"):
@@ -380,13 +403,18 @@ while user_input != "exit":
             print("Goodbye!!")
         else:
             print("Invalid choice!")
+    # error handling actions
     except ValueError as err_mssg:
-        print("\nENTRY ERROR! Must evaluate a valid number!")
-        print("\'" + str(err_mssg) + "\'")
-        print("\nMemory UNCHANGED. Returning to Menu.")
+       print("\nENTRY ERROR! Must evaluate a valid number!")
+       print("\'" + str(err_mssg) + "\'")
+       print("\nMemory UNCHANGED. Returning to Menu.")
     except ZeroDivisionError:
-        print("\nDIVIDE BY ZERO ERROR!\nMemory UNCHANGED")
-        print("Returning to Menu.")
+       print("\nDIVIDE BY ZERO ERROR!\nMemory UNCHANGED")
+       print("Returning to Menu.")
     except TypeError:
-        print("\nTYPE ERROR! Must evaluate a valid number!")
-        print("Memory UNCHANGED!\nReturning to Menu.")
+       print("\nTYPE ERROR! Must evaluate a valid number!")
+       print("Memory UNCHANGED!\nReturning to Menu.")
+    except Exception as err_mssg:
+        print("\nAn ERROR has occured:")
+        print("\'" + str(err_mssg) + "\'")
+        print("Returning to Menu.")
