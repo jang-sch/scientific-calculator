@@ -92,7 +92,7 @@ def sub_func(memory):
     else:
         memory -= sum(diff_array)
         memory = round(memory, 10)
-        print("The difference is " + str(memory))
+    print("The difference is " + str(memory))
     return memory
 
 # multiplies number(s) by memory or each other depending on if memory == 0
@@ -308,9 +308,9 @@ def cube_root(memory):
     # to manage python's use of complex numbers for cube roots
     if(raw_num < 0):
         raw_num = abs(raw_num)
-        memory = -(raw_num)**(1.0/3.0)
+        memory = round((-(raw_num)**(1.0/3.0)), 10)
     else:
-        memory = (raw_num)**(1.0/3.0)
+        memory = round(((raw_num)**(1.0/3.0)), 10)
     print("The cube root is " + str(memory))
     return memory
 
