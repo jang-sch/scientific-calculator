@@ -120,7 +120,7 @@ def mult_func(memory):
     # 0 if only one input give and memory is zero b/c zero * any number = 0
     else:
         memory = 0.0
-
+    memory = round(memory, 10)
     print("The answer is " + str(memory))
     return memory
 
